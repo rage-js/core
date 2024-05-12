@@ -8,3 +8,5 @@ assignees: ''
 ---
 
 <!--- Describe the bug here -->
+
+<!--- If you have any solution on your own, be sure to provide it as well -->
