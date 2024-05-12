@@ -1,7 +1,7 @@
 <br>
 
 <div align='center'>
-  <img src="../RAGE/img_for_docs/RAGE.png" alt="logo" style="width:400px;"/>
+  <img src="img_for_docs/RAGE.png" alt="logo" style="width:400px;"/>
 </div>
 
 <br>
