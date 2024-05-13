@@ -1,0 +1,30 @@
+{
+  "name": "rage",
+  "version": "0.0.1",
+  "description": "A tool to use the RAGE approach to manage databases",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "lint": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Maghish/RAGE.git"
+  },
+  "keywords": [
+    "rage",
+    "RAGE"
+  ],
+  "author": "Maghish",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Maghish/RAGE/issues"
+  },
+  "homepage": "https://github.com/Maghish/RAGE#readme",
+  "devDependencies": {
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.5"
+  }
+}
