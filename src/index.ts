@@ -1,4 +1,4 @@
-import { AppArguments } from "./env";
+import * as TYPES from "./env";
 
 import PAI from "./methods/PAI";
 
@@ -7,23 +7,25 @@ import PAI from "./methods/PAI";
  */
 class App {
   method: string;
-  database: string;
+  database: TYPES.DatabaseArgumentType;
   interval?: number;
+  outDir: string;
   active: boolean;
 
-  constructor({ method, database, interval }: AppArguments) {
+  constructor({ method, database, interval, outDir }: TYPES.AppArguments) {
     if (method === "PAI") {
       this.interval = interval;
     }
 
     this.method = method;
     this.database = database;
+    this.outDir = outDir;
     this.active = false;
   }
 
   async start() {
     if (this.method === "PAI") {
-      const newInstance = new PAI(this.interval!);
+      const newInstance = new PAI(this.database, this.interval!);
       await newInstance.start();
     }
   }

@@ -1,7 +1,13 @@
-interface AppArguments {
-  method: "PAI" | "POU" | "NI";
-  database: "MongoDB";
-  interval?: number;
+interface DatabaseArgumentType {
+  name: string;
+  secretKey?: any;
 }
 
-export { AppArguments };
+interface AppArguments {
+  method: "PAI" | "POU" | "NI";
+  database: DatabaseArgumentType;
+  interval?: number;
+  outDir: string;
+}
+
+export { AppArguments, DatabaseArgumentType };

@@ -1,12 +1,16 @@
+import * as TYPES from "../env";
+
 /**
  * PushAfterInterval (PAI) is one of the methods on RAGE approach, where you can push the local data to the cloud database after every certain interval
  */
 
 class PAI {
+  database: TYPES.DatabaseArgumentType;
   interval: number;
   active: boolean;
 
-  constructor(interval: number) {
+  constructor(database: TYPES.DatabaseArgumentType, interval: number) {
+    this.database = database;
     this.interval = interval;
     this.active = false;
   }
@@ -15,7 +19,12 @@ class PAI {
     this.active = true;
 
     while (this.active) {
-      console.log("Running");
+      console.log(
+        "The Database is " +
+          this.database.name +
+          "\nSecretKey: " +
+          this.database.secretKey
+      );
       await new Promise((resolve) => setTimeout(resolve, this.interval));
     }
   }
