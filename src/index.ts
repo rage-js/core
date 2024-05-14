@@ -11,10 +11,12 @@ class App {
   interval?: number;
   outDir: string;
   active: boolean;
+  methodInstance: any; // Method class instance
 
   constructor({ method, database, interval, outDir }: TYPES.AppArguments) {
     if (method === "PushAfterInterval") {
       this.interval = interval;
+      this.methodInstance = new PushAfterInterval(database, interval!);
     }
 
     this.method = method;
@@ -24,15 +26,15 @@ class App {
   }
 
   async start() {
-    if (this.method === "PushAfterInterval") {
-      const newInstance = new PushAfterInterval(this.database, this.interval!);
-      await newInstance.start();
-    }
+    this.active = true;
+    console.log("Starting...");
+    await this.methodInstance.start();
   }
 
   async stop() {
     this.active = false;
     console.log("Stopping the App...");
+    await this.methodInstance.stop();
   }
 }
 
