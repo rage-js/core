@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/Maghish/RAGE#readme",
   "devDependencies": {
+    "@types/node": "^20.12.12",
     "tsup": "^8.0.2",
     "typescript": "^5.4.5"
   }
