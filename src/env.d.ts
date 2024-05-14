@@ -1,5 +1,5 @@
 interface AppArguments {
-  method: "PAI" | "POC" | "NI";
+  method: "PAI" | "POU" | "NI";
   database: "MongoDB";
   interval?: number;
 }
