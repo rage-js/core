@@ -1,24 +1,17 @@
 import * as TYPES from "../env";
 import * as fs from "fs";
+import { MongoClient } from "mongodb";
 
 /**
  * PushAfterInterval (PAI) is one of the methods on RAGE approach, where you can push the local data to the cloud database after every certain interval
  */
 
 class PushAfterInterval {
-  database: TYPES.DatabaseArgumentType;
-  interval: number;
-  outDir: string;
   active: boolean;
 
-  constructor(
-    database: TYPES.DatabaseArgumentType,
-    interval: number,
-    outDir: string
-  ) {
-    this.database = database;
-    this.interval = interval;
-    this.outDir = outDir;
+  // Database specific properties
+
+  constructor() {
     this.active = false;
   }
 
@@ -32,18 +25,23 @@ class PushAfterInterval {
     */
 
     while (this.active) {
-      console.log(
-        "The Database is " +
-          this.database.name +
-          "\nSecretKey: " +
-          this.database.secretKey
-      );
+      // const db = this.mongodbClient!.db("test");
+      // const collections = await db.listCollections().toArray();
+
+      // const collectionData = [];
+      // for (const collection of collections) {
+      //   const collectionName = collection.name;
+      //   const data = await db.collection(collectionName).find().toArray();
+      //   collectionData.push({ name: collectionName, data });
+      // }
+
+      // console.log(collectionData);
 
       /*
         Read JSON files and convert them into MongoDB data and then push it to MongoDB  
       */
 
-      await new Promise((resolve) => setTimeout(resolve, this.interval));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     }
   }
 
