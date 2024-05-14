@@ -8,12 +8,40 @@ import { MongoClient } from "mongodb";
  */
 
 class PushAfterInterval {
+  interval: number;
+  outDir: string;
+  database: {
+    type: "MongoDB";
+    secretKey?: string;
+    dbSpecificSettings: {
+      dbs: string[];
+      excludeCollections: string[];
+    };
+  };
   active: boolean;
 
   // Database specific properties
 
-  constructor() {
+  mongodbClient?: MongoClient;
+
+  constructor({
+    interval,
+    outDir,
+    database,
+  }: TYPES.PushAfterIntervalArguments) {
+    this.interval = interval;
+    this.outDir = outDir;
+    this.database = database;
     this.active = false;
+
+    if (database.type === "MongoDB") {
+      if (database.secretKey) {
+        this.mongodbClient = new MongoClient(database.secretKey);
+        this.mongodbClient.connect();
+      } else {
+        throw new Error("Secret key for the database is not provided");
+      }
+    }
   }
 
   async start() {
@@ -25,19 +53,27 @@ class PushAfterInterval {
       Then convert it into JSON files
     */
 
+    this.database.dbSpecificSettings.dbs.forEach(async (dbName) => {
+      const db = this.mongodbClient!.db(dbName);
+      const collections = await db.listCollections().toArray();
+
+      const collectionData = [];
+      for (const collection of collections) {
+        const collectionName = collection.name;
+        if (
+          collectionName in this.database.dbSpecificSettings.excludeCollections
+        ) {
+          const data = await db.collection(collectionName).find().toArray();
+          collectionData.push({ name: collectionName, data });
+        } else {
+          // Skip
+        }
+      }
+
+      console.log(collectionData);
+    });
+
     while (this.active) {
-      // const db = this.mongodbClient!.db("test");
-      // const collections = await db.listCollections().toArray();
-
-      // const collectionData = [];
-      // for (const collection of collections) {
-      //   const collectionName = collection.name;
-      //   const data = await db.collection(collectionName).find().toArray();
-      //   collectionData.push({ name: collectionName, data });
-      // }
-
-      // console.log(collectionData);
-
       /*
         Read JSON files and convert them into MongoDB data and then push it to MongoDB  
       */
