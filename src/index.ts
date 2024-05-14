@@ -16,7 +16,7 @@ class App {
   constructor({ method, database, interval, outDir }: TYPES.AppArguments) {
     if (method === "PushAfterInterval") {
       this.interval = interval;
-      this.methodInstance = new PushAfterInterval(database, interval!);
+      this.methodInstance = new PushAfterInterval(database, interval!, outDir);
     }
 
     this.method = method;
