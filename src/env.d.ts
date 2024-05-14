@@ -4,7 +4,7 @@ interface DatabaseArgumentType {
 }
 
 interface AppArguments {
-  method: "PAI" | "POU" | "NI";
+  method: "PushAfterInterval" | "PushOnUpdate" | "NoInterval";
   database: DatabaseArgumentType;
   interval?: number;
   outDir: string;

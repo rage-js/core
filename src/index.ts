@@ -1,6 +1,6 @@
 import * as TYPES from "./env";
 
-import PAI from "./methods/PAI";
+import PushAfterInterval from "./methods/PushAfterInterval";
 
 /**
  * Spams "Running" with the given interval
@@ -13,7 +13,7 @@ class App {
   active: boolean;
 
   constructor({ method, database, interval, outDir }: TYPES.AppArguments) {
-    if (method === "PAI") {
+    if (method === "PushAfterInterval") {
       this.interval = interval;
     }
 
@@ -24,8 +24,8 @@ class App {
   }
 
   async start() {
-    if (this.method === "PAI") {
-      const newInstance = new PAI(this.database, this.interval!);
+    if (this.method === "PushAfterInterval") {
+      const newInstance = new PushAfterInterval(this.database, this.interval!);
       await newInstance.start();
     }
   }

@@ -4,7 +4,7 @@ import * as TYPES from "../env";
  * PushAfterInterval (PAI) is one of the methods on RAGE approach, where you can push the local data to the cloud database after every certain interval
  */
 
-class PAI {
+class PushAfterInterval {
   database: TYPES.DatabaseArgumentType;
   interval: number;
   active: boolean;
@@ -35,4 +35,4 @@ class PAI {
   }
 }
 
-export default PAI;
+export default PushAfterInterval;
