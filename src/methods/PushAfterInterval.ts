@@ -3,7 +3,8 @@ import * as fs from "fs";
 import { MongoClient } from "mongodb";
 
 /**
- * PushAfterInterval (PAI) is one of the methods on RAGE approach, where you can push the local data to the cloud database after every certain interval
+ * PushAfterInterval (PAI) is one of the methods on RAGE approach,
+ * where you can push the local data to the cloud database after every certain interval
  */
 
 class PushAfterInterval {
