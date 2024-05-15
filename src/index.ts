@@ -34,6 +34,9 @@ class App {
     }
   }
 
+  /**
+   * Starts the application
+   */
   async start() {
     try {
       this.active = true;
@@ -44,6 +47,9 @@ class App {
     }
   }
 
+  /**
+   * Stops the application
+   */
   async stop() {
     try {
       this.active = false;

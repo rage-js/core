@@ -2,6 +2,9 @@ import * as fs from "fs";
 import { writeJsonFilesArguments } from "./env";
 import * as path from "path";
 
+/**
+ * Writes JSON files with the given data in the given directory
+ */
 async function writeJsonFiles({
   dirPath,
   fileName,

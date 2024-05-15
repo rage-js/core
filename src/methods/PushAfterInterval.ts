@@ -44,6 +44,9 @@ class PushAfterInterval {
     }
   }
 
+  /**
+   * Starts the instance
+   */
   async start() {
     this.active = true;
 
@@ -88,6 +91,9 @@ class PushAfterInterval {
     }
   }
 
+  /**
+   * Terminates the instance
+   */
   async stop() {
     this.active = false;
     console.log("⚙️  | PushAfterInterval instance terminated.");
