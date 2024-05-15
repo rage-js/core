@@ -18,4 +18,14 @@ interface writeJsonFilesArguments {
   dataToWrite: any[] | Object;
 }
 
-export { PushAfterIntervalArguments, writeJsonFilesArguments };
+interface readJsonFilesArguments {
+  dirPath: string;
+  fileName: string;
+  databaseName: string;
+}
+
+export {
+  PushAfterIntervalArguments,
+  writeJsonFilesArguments,
+  readJsonFilesArguments,
+};
