@@ -1,5 +1,5 @@
 import * as TYPES from "../env";
-import * as fs from "fs";
+import writeJsonFiles from "../writeJsonFiles";
 import { MongoClient } from "mongodb";
 
 /**
@@ -57,7 +57,6 @@ class PushAfterInterval {
       const db = this.mongodbClient!.db(dbName);
       const collections = await db.listCollections().toArray();
 
-      const collectionData = [];
       for (const collection of collections) {
         const collectionName = collection.name;
         if (
@@ -66,11 +65,18 @@ class PushAfterInterval {
           // Skip
         } else {
           const data = await db.collection(collectionName).find().toArray();
-          collectionData.push({ name: collectionName, data });
+          const res = await writeJsonFiles({
+            dirPath: this.outDir,
+            fileName: collectionName,
+            databaseName: dbName,
+            dataToWrite: data,
+          });
+
+          if (res !== false) {
+            console.log(`${dbName}.${collectionName} => ${res}`);
+          }
         }
       }
-
-      console.log(collectionData);
     });
 
     while (this.active) {
