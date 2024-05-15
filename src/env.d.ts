@@ -11,4 +11,11 @@ interface PushAfterIntervalArguments {
   };
 }
 
-export { PushAfterIntervalArguments };
+interface writeJsonFilesArguments {
+  dirPath: string;
+  fileName: string;
+  databaseName: string;
+  dataToWrite: any[] | Object;
+}
+
+export { PushAfterIntervalArguments, writeJsonFilesArguments };
