@@ -1,5 +1,6 @@
 import * as TYPES from "../env";
-import writeJsonFiles from "../writeJsonFiles";
+import getCurrentTime from "../util/getCurrentTime";
+import writeJsonFiles from "../util/writeJsonFiles";
 import { MongoClient } from "mongodb";
 
 /**
@@ -76,7 +77,9 @@ class PushAfterInterval {
           });
 
           if (res !== false) {
-            console.log(`⚙️  | ${dbName}.${collectionName} => ${res}`);
+            console.log(
+              `⚙️ |[${getCurrentTime()}]| ${dbName}.${collectionName} => ${res}`
+            );
           }
         }
       }
@@ -96,7 +99,9 @@ class PushAfterInterval {
    */
   async stop() {
     this.active = false;
-    console.log("⚙️  | PushAfterInterval instance terminated.");
+    console.log(
+      `⚙️ |[${getCurrentTime()}]| PushAfterInterval instance terminated.`
+    );
   }
 }
 

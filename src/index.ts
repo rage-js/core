@@ -1,6 +1,7 @@
 import * as fs from "fs";
 
 import PushAfterInterval from "./methods/PushAfterInterval";
+import getCurrentTime from "./util/getCurrentTime";
 
 /**
  * Spams "Running" with the given interval
@@ -40,7 +41,7 @@ class App {
   async start() {
     try {
       this.active = true;
-      console.log("⚙️  | Starting...");
+      console.log(`⚙️ |[${getCurrentTime()}]| Starting...`);
       await this.methodInstance.start();
     } catch (error) {
       console.error(error);
@@ -55,7 +56,7 @@ class App {
       this.active = false;
 
       await this.methodInstance.stop();
-      console.log("⚙️  | Application stopped.");
+      console.log(`⚙️ |[${getCurrentTime()}]| Application stopped.`);
     } catch (error) {
       console.error(error);
     }

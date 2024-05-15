@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import { writeJsonFilesArguments } from "../env";
 import * as path from "path";
+import getCurrentTime from "./getCurrentTime";
 
 /**
  * Writes JSON files with the given data in the given directory
@@ -17,7 +18,9 @@ async function writeJsonFiles({
     const convertedJsonData = JSON.stringify(dataToWrite, null, 2);
     if (!fs.existsSync(folderPath)) {
       fs.mkdirSync(folderPath);
-      console.log(`⚙️  | Directory created: ${folderPath}`);
+      console.log(
+        `⚙️ |[${getCurrentTime()}]| Directory created: ${folderPath}`
+      );
     }
 
     fs.writeFileSync(finalFilePath, convertedJsonData, "utf-8");
