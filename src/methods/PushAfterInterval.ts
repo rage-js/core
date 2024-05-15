@@ -63,10 +63,10 @@ class PushAfterInterval {
         if (
           collectionName in this.database.dbSpecificSettings.excludeCollections
         ) {
+          // Skip
+        } else {
           const data = await db.collection(collectionName).find().toArray();
           collectionData.push({ name: collectionName, data });
-        } else {
-          // Skip
         }
       }
 

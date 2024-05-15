@@ -38,14 +38,20 @@ class App {
     try {
       this.active = true;
       console.log("Starting...");
+      await this.methodInstance.start();
     } catch (error) {
       console.error(error);
     }
   }
 
   async stop() {
-    this.active = false;
-    console.log("Stopping the App...");
+    try {
+      this.active = false;
+      console.log("Stopping the App...");
+      await this.methodInstance.stop();
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
 
