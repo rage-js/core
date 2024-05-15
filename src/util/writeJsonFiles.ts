@@ -15,6 +15,15 @@ async function writeJsonFiles({
   try {
     const folderPath = path.join(dirPath, databaseName);
     const finalFilePath = `${path.join(dirPath, databaseName, fileName)}.json`;
+    let newlyUpdatedData = [];
+    dataToWrite.forEach((document: any) => {
+      if (document.id) {
+        newlyUpdatedData.push(document);
+      } else {
+        document.id = document._id.toString();
+        newlyUpdatedData.push(document);
+      }
+    });
     const convertedJsonData = JSON.stringify(dataToWrite, null, 2);
     if (!fs.existsSync(folderPath)) {
       fs.mkdirSync(folderPath);

@@ -15,7 +15,7 @@ interface writeJsonFilesArguments {
   dirPath: string;
   fileName: string;
   databaseName: string;
-  dataToWrite: any[] | Object;
+  dataToWrite: any[];
 }
 
 interface readJsonFilesArguments {
