@@ -21,6 +21,7 @@ async function writeJsonFiles({
         newlyUpdatedData.push(document);
       } else {
         document.id = document._id.toString();
+        delete document._id;
         newlyUpdatedData.push(document);
       }
     });

@@ -14,6 +14,7 @@ async function readJsonFiles({
     const finalFilePath = `${path.join(dirPath, databaseName, fileName)}.json`;
     const fileContent = fs.readFileSync(finalFilePath, "utf-8");
     const data = JSON.parse(fileContent);
+    console.log(data);
     return data;
   } catch (error) {
     console.error(error);

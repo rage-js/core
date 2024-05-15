@@ -91,47 +91,39 @@ class PushAfterInterval {
         Read JSON files and convert them into MongoDB data and then push it to MongoDB  
       */
 
-      // this.database.dbSpecificSettings.dbs.forEach(async (dbName) => {
-      //   const db = this.mongodbClient!.db(dbName);
-      //   const collections = await db.listCollections().toArray();
+      this.database.dbSpecificSettings.dbs.forEach(async (dbName) => {
+        const db = this.mongodbClient!.db(dbName);
+        const collections = await db.listCollections().toArray();
 
-      //   for (const collection of collections) {
-      //     const collectionName = collection.name;
-      //     if (
-      //       collectionName in
-      //       this.database.dbSpecificSettings.excludeCollections
-      //     ) {
-      //       // Skip
-      //     } else {
-      //       const res = await readJsonFiles({
-      //         dirPath: this.outDir,
-      //         fileName: collectionName,
-      //         databaseName: dbName,
-      //       });
+        for (const collection of collections) {
+          const collectionName = collection.name;
+          if (
+            collectionName in
+            this.database.dbSpecificSettings.excludeCollections
+          ) {
+            // Skip
+          } else {
+            const res = await readJsonFiles({
+              dirPath: this.outDir,
+              fileName: collectionName,
+              databaseName: dbName,
+            });
 
-      //       res.forEach(async (document: any) => {
-      //         if (document._id) {
-      //           const filter = { _id: new ObjectId(document._id) };
-      //           const currentCollection = db.collection(collectionName);
-      //           delete document._id;
-      //           console.log(document);
-      //           const update = { $set: document };
-      //           const updatedDocument = await currentCollection.updateOne(
-      //             filter,
-      //             update
-      //           );
+            // Empty the collection
+            const c = db.collection(collectionName);
+            c.deleteMany({}).then(() => {
+              // Insert all the documents in the collection
 
-      //           console.log(
-      //             "Updated documents:",
-      //             updatedDocument.modifiedCount
-      //           );
-      //         } else {
-      //           // Create a new document
-      //         }
-      //       });
-      //     }
-      //   }
-      // });
+              res.forEach(async (document: any) => {
+                const result = await c.insertOne(document);
+                console.log(result.acknowledged);
+              });
+            });
+
+            console.log(dbName, collectionName, c.countDocuments(), res);
+          }
+        }
+      });
 
       await new Promise((resolve) => setTimeout(resolve, this.interval));
     }
