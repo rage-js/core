@@ -14,7 +14,7 @@ async function writeJsonFiles({
     const convertedJsonData = JSON.stringify(dataToWrite, null, 2);
     if (!fs.existsSync(folderPath)) {
       fs.mkdirSync(folderPath);
-      console.log(`Directory created: ${folderPath}`);
+      console.log(`⚙️  | Directory created: ${folderPath}`);
     }
 
     fs.writeFileSync(finalFilePath, convertedJsonData, "utf-8");

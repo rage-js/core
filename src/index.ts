@@ -37,7 +37,7 @@ class App {
   async start() {
     try {
       this.active = true;
-      console.log("Starting...");
+      console.log("⚙️  | Starting...");
       await this.methodInstance.start();
     } catch (error) {
       console.error(error);
@@ -47,8 +47,9 @@ class App {
   async stop() {
     try {
       this.active = false;
-      console.log("Stopping the App...");
+
       await this.methodInstance.stop();
+      console.log("⚙️  | Application stopped.");
     } catch (error) {
       console.error(error);
     }

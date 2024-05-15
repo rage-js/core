@@ -73,7 +73,7 @@ class PushAfterInterval {
           });
 
           if (res !== false) {
-            console.log(`${dbName}.${collectionName} => ${res}`);
+            console.log(`⚙️  | ${dbName}.${collectionName} => ${res}`);
           }
         }
       }
@@ -90,7 +90,7 @@ class PushAfterInterval {
 
   async stop() {
     this.active = false;
-    console.log("End");
+    console.log("⚙️  | PushAfterInterval instance terminated.");
   }
 }
 
