@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import { writeJsonFilesArguments } from "./env";
+import { writeJsonFilesArguments } from "../env";
 import * as path from "path";
 
 /**
