@@ -117,14 +117,14 @@ class PushAfterInterval {
                   c.deleteMany({}).then(() => {
                     // Insert all the documents in the collection
                     res.forEach(async (document: any) => {
-                      c.insertOne(document).then((result) => {
-                        console.log(
-                          result.acknowledged
-                            ? `↗️ |[${getCurrentTime()}]| Pushing ${dbName}/${collectionName}.json`
-                            : `↗️ |[${getCurrentTime()}]| Error on pushing ${dbName}/${collectionName}.json`
-                        );
+                      c.insertOne(document).catch((error) => {
+                        throw error;
                       });
                     });
+
+                    console.log(
+                      `↗️ |[${getCurrentTime()}]| Pushing ${dbName}/${collectionName}.json`
+                    );
                   });
                 }
               }

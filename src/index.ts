@@ -59,8 +59,8 @@ class App {
     try {
       this.active = false;
 
-      await this.methodInstance.stop();
       console.log(`⚙️ |[${getCurrentTime()}]| Application stopped.`);
+      await this.methodInstance.stop();
     } catch (error) {
       console.error(error);
     }
