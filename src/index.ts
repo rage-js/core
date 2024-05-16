@@ -24,7 +24,11 @@ class App {
         configSettings.method &&
         configSettings.method === "PushAfterInterval"
       ) {
-        this.methodInstance = new PushAfterInterval(configSettings);
+        this.methodInstance = new PushAfterInterval({
+          interval: configSettings.methodSpecificSettings.interval,
+          outDir: configSettings.outDir,
+          database: configSettings.database,
+        });
       }
     } catch (error: any) {
       if (error.code === "ENOENT") {

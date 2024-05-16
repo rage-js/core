@@ -18,6 +18,7 @@ async function writeJsonFiles({
     let newlyUpdatedData = [];
     dataToWrite.forEach((document: any) => {
       if (document.id) {
+        delete document._id;
         newlyUpdatedData.push(document);
       } else {
         document.id = document._id.toString();

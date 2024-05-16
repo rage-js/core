@@ -79,51 +79,60 @@ class PushAfterInterval {
 
           if (res !== false) {
             console.log(
-              `⚙️ |[${getCurrentTime()}]| ${dbName}.${collectionName} => ${res}`
+              `↙️ |[${getCurrentTime()}]| Fetching ${dbName}.${collectionName} => ${res}`
             );
           }
         }
       }
     });
 
+    let firstIteration = true;
     while (this.active) {
       /*
         Read JSON files and convert them into MongoDB data and then push it to MongoDB  
       */
 
-      this.database.dbSpecificSettings.dbs.forEach(async (dbName) => {
-        const db = this.mongodbClient!.db(dbName);
-        const collections = await db.listCollections().toArray();
+      if (!firstIteration) {
+        this.database.dbSpecificSettings.dbs.forEach((dbName) => {
+          const db = this.mongodbClient!.db(dbName);
+          db.listCollections()
+            .toArray()
+            .then(async (collections) => {
+              for (const collection of collections) {
+                const collectionName = collection.name;
+                if (
+                  collectionName in
+                  this.database.dbSpecificSettings.excludeCollections
+                ) {
+                  // Skip
+                } else {
+                  const res = await readJsonFiles({
+                    dirPath: this.outDir,
+                    fileName: collectionName,
+                    databaseName: dbName,
+                  });
 
-        for (const collection of collections) {
-          const collectionName = collection.name;
-          if (
-            collectionName in
-            this.database.dbSpecificSettings.excludeCollections
-          ) {
-            // Skip
-          } else {
-            const res = await readJsonFiles({
-              dirPath: this.outDir,
-              fileName: collectionName,
-              databaseName: dbName,
+                  // Empty the collection
+                  const c = db.collection(collectionName);
+                  c.deleteMany({}).then(() => {
+                    // Insert all the documents in the collection
+                    res.forEach(async (document: any) => {
+                      c.insertOne(document).then((result) => {
+                        console.log(
+                          result.acknowledged
+                            ? `↗️ |[${getCurrentTime()}]| Pushing ${dbName}/${collectionName}.json`
+                            : `↗️ |[${getCurrentTime()}]| Error on pushing ${dbName}/${collectionName}.json`
+                        );
+                      });
+                    });
+                  });
+                }
+              }
             });
-
-            // Empty the collection
-            const c = db.collection(collectionName);
-            c.deleteMany({}).then(() => {
-              // Insert all the documents in the collection
-
-              res.forEach(async (document: any) => {
-                const result = await c.insertOne(document);
-                console.log(result.acknowledged);
-              });
-            });
-
-            console.log(dbName, collectionName, c.countDocuments(), res);
-          }
-        }
-      });
+        });
+      } else {
+        firstIteration = false;
+      }
 
       await new Promise((resolve) => setTimeout(resolve, this.interval));
     }
