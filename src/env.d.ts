@@ -33,9 +33,19 @@ interface fetchAndWriteDBArguments {
   outDir: string;
 }
 
+interface pushDataFromLocalArguments {
+  mongodbClient: any;
+  configSettings: {
+    dbs: string[];
+    excludeCollections: string[];
+  };
+  outDir: string;
+}
+
 export {
   PushAfterIntervalArguments,
   writeJsonFilesArguments,
   readJsonFilesArguments,
   fetchAndWriteDBArguments,
+  pushDataFromLocalArguments,
 };

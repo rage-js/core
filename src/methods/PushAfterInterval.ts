@@ -1,8 +1,9 @@
 import * as TYPES from "../env";
 import getCurrentTime from "../util/getCurrentTime";
 import readJsonFiles from "../util/readJsonFiles";
-import fetchAndWriteDB from "../util/MongoDB/fetchAndWriteDb";
+import fetchAndWriteDB from "../util/MongoDB/fetchAndWriteDB";
 import { MongoClient, ObjectId } from "mongodb";
+import pushDataFromLocal from "../util/MongoDB/pushDataFromLocal";
 
 /**
  * PushAfterInterval (PAI) is one of the methods on RAGE approach,
@@ -62,48 +63,14 @@ class PushAfterInterval {
 
     let firstIteration = true;
     while (this.active) {
-      /*
-        Read JSON files and convert them into MongoDB data and then push it to MongoDB  
-      */
-
       if (!firstIteration) {
-        this.database.dbSpecificSettings.dbs.forEach((dbName) => {
-          const db = this.mongodbClient!.db(dbName);
-          db.listCollections()
-            .toArray()
-            .then(async (collections) => {
-              for (const collection of collections) {
-                const collectionName = collection.name;
-                if (
-                  collectionName in
-                  this.database.dbSpecificSettings.excludeCollections
-                ) {
-                  // Skip
-                } else {
-                  const res = await readJsonFiles({
-                    dirPath: this.outDir,
-                    fileName: collectionName,
-                    databaseName: dbName,
-                  });
-
-                  // Empty the collection
-                  const c = db.collection(collectionName);
-                  c.deleteMany({}).then(() => {
-                    // Insert all the documents in the collection
-                    res.forEach(async (document: any) => {
-                      c.insertOne(document).catch((error) => {
-                        throw error;
-                      });
-                    });
-
-                    console.log(
-                      `↗️ |[${getCurrentTime()}]| Pushing ${dbName}/${collectionName}.json`
-                    );
-                  });
-                }
-              }
-            });
-        });
+        if (this.database.type === "MongoDB") {
+          await pushDataFromLocal({
+            mongodbClient: this.mongodbClient!,
+            configSettings: this.database.dbSpecificSettings,
+            outDir: this.outDir,
+          });
+        }
       } else {
         firstIteration = false;
       }
