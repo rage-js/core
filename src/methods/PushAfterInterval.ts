@@ -122,21 +122,18 @@ class PushAfterInterval {
               console.log(
                 `↗️ |[${getCurrentTime()}]| Pushing ${dbName}/${collectionName}.json`
               );
+              if (index === this.database.dbSpecificSettings.dbs.length) {
+                console.log(
+                  `⚙️ |[${getCurrentTime()}]| PushAfterInterval instance terminated.`
+                );
+                process.exit(0);
+              } else {
+                index++;
+              }
             });
           }
         }
-        console.log(
-          index === this.database.dbSpecificSettings.dbs.length,
-          index === this.database.dbSpecificSettings.dbs.length - 1
-        );
-        if (index === this.database.dbSpecificSettings.dbs.length - 1) {
-          console.log(
-            `⚙️ |[${getCurrentTime()}]| PushAfterInterval instance terminated.`
-          );
-          process.exit(0);
-        } else {
-          index++;
-        }
+        index++;
       });
     } catch (error) {
       console.error(error);
