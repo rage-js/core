@@ -1,7 +1,7 @@
 import * as TYPES from "../env";
 import getCurrentTime from "../util/getCurrentTime";
 import readJsonFiles from "../util/readJsonFiles";
-import writeJsonFiles from "../util/writeJsonFiles";
+import fetchAndWriteDB from "../util/MongoDB/fetchAndWriteDb";
 import { MongoClient, ObjectId } from "mongodb";
 
 /**
@@ -52,39 +52,13 @@ class PushAfterInterval {
   async start() {
     this.active = true;
 
-    /*
-      Connect to MongoDB globally first and let it run till the application is closed. 
-      Read MongoDB data and convert it into objects,
-      Then convert it into JSON files
-    */
-
-    this.database.dbSpecificSettings.dbs.forEach(async (dbName) => {
-      const db = this.mongodbClient!.db(dbName);
-      const collections = await db.listCollections().toArray();
-
-      for (const collection of collections) {
-        const collectionName = collection.name;
-        if (
-          collectionName in this.database.dbSpecificSettings.excludeCollections
-        ) {
-          // Skip
-        } else {
-          const data = await db.collection(collectionName).find().toArray();
-          const res = await writeJsonFiles({
-            dirPath: this.outDir,
-            fileName: collectionName,
-            databaseName: dbName,
-            dataToWrite: data,
-          });
-
-          if (res !== false) {
-            console.log(
-              `↙️ |[${getCurrentTime()}]| Fetching ${dbName}.${collectionName} => ${res}`
-            );
-          }
-        }
-      }
-    });
+    if (this.database.type === "MongoDB") {
+      await fetchAndWriteDB({
+        mongodbClient: this.mongodbClient!,
+        configSettings: this.database.dbSpecificSettings,
+        outDir: this.outDir,
+      });
+    }
 
     let firstIteration = true;
     while (this.active) {

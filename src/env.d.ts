@@ -24,8 +24,18 @@ interface readJsonFilesArguments {
   databaseName: string;
 }
 
+interface fetchAndWriteDBArguments {
+  mongodbClient: any;
+  configSettings: {
+    dbs: string[];
+    excludeCollections: string[];
+  };
+  outDir: string;
+}
+
 export {
   PushAfterIntervalArguments,
   writeJsonFilesArguments,
   readJsonFilesArguments,
+  fetchAndWriteDBArguments,
 };
