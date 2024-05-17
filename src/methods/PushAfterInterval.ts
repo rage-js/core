@@ -45,6 +45,10 @@ class PushAfterInterval {
         throw new Error("Secret key for the database is not provided");
       }
     }
+
+    process.on("SIGINT", async () => {
+      await this.stop();
+    });
   }
 
   /**
@@ -79,56 +83,64 @@ class PushAfterInterval {
     }
   }
 
-  async pushNow() {
-    this.database.dbSpecificSettings.dbs.forEach((dbName) => {
-      const db = this.mongodbClient!.db(dbName);
-      console.log(1);
-      db.listCollections()
-        .toArray()
-        .then(async (collections) => {
-          for (const collection of collections) {
-            const collectionName = collection.name;
-            if (
-              collectionName in
-              this.database.dbSpecificSettings.excludeCollections
-            ) {
-              // Skip
-            } else {
-              console.log(2);
-              const res = await readJsonFiles({
-                dirPath: this.outDir,
-                fileName: collectionName,
-                databaseName: dbName,
-              });
-
-              // Empty the collection
-              const c = db.collection(collectionName);
-              c.deleteMany({}).then(() => {
-                // Insert all the documents in the collection
-                res.forEach(async (document: any) => {
-                  c.insertOne(document).catch((error) => {
-                    throw error;
-                  });
-                });
-
-                console.log(
-                  `↗️ |[${getCurrentTime()}]| Pushing ${dbName}/${collectionName}.json`
-                );
-              });
-            }
-          }
-        });
-    });
-  }
-
   /**
    * Terminates the instance
    */
   async stop() {
     this.active = false;
-    console.log(
-      `⚙️ |[${getCurrentTime()}]| PushAfterInterval instance terminated.`
-    );
+    try {
+      let index = 0;
+      this.database.dbSpecificSettings.dbs.forEach(async (dbName) => {
+        const db = this.mongodbClient!.db(dbName);
+
+        const collections = await db.listCollections().toArray();
+
+        for (const collection of collections) {
+          const collectionName = collection.name;
+          if (
+            collectionName in
+            this.database.dbSpecificSettings.excludeCollections
+          ) {
+            // Skip
+          } else {
+            const res = await readJsonFiles({
+              dirPath: this.outDir,
+              fileName: collectionName,
+              databaseName: dbName,
+            });
+
+            // Empty the collection
+            const c = db.collection(collectionName);
+            c.deleteMany({}).then(() => {
+              // Insert all the documents in the collection
+              res.forEach(async (document: any) => {
+                c.insertOne(document).catch((error) => {
+                  throw error;
+                });
+              });
+
+              console.log(
+                `↗️ |[${getCurrentTime()}]| Pushing ${dbName}/${collectionName}.json`
+              );
+            });
+          }
+        }
+        console.log(
+          index === this.database.dbSpecificSettings.dbs.length,
+          index === this.database.dbSpecificSettings.dbs.length - 1
+        );
+        if (index === this.database.dbSpecificSettings.dbs.length - 1) {
+          console.log(
+            `⚙️ |[${getCurrentTime()}]| PushAfterInterval instance terminated.`
+          );
+          process.exit(0);
+        } else {
+          index++;
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
 

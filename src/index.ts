@@ -37,27 +37,6 @@ class App {
         throw error;
       }
     }
-
-    process.on("SIGINT", () => {
-      this.methodInstance.pushNow().then(() => {
-        this.stop();
-        process.exit(0);
-      });
-    });
-
-    process.on("SIGTERM", () => {
-      this.methodInstance.pushNow().then(() => {
-        this.stop();
-        process.exit(0);
-      });
-    });
-
-    process.on("exit", () => {
-      this.methodInstance.pushNow().then(() => {
-        this.stop();
-        process.exit(0);
-      });
-    });
   }
 
   /**
