@@ -4,7 +4,7 @@ import PushAfterInterval from "./methods/PushAfterInterval";
 import getCurrentTime from "./util/getCurrentTime";
 
 /**
- * Spams "Running" with the given interval
+ * The App class runs an instance of anyone of the given RAGE methods in the background
  */
 
 class App {
