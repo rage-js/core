@@ -37,6 +37,10 @@ class App {
         throw error;
       }
     }
+
+    process.on("SIGINT" || "exit", async () => {
+      await this.methodInstance.stop(true);
+    });
   }
 
   /**
@@ -58,9 +62,7 @@ class App {
   async stop() {
     try {
       this.active = false;
-
-      console.log(`⚙️ |[${getCurrentTime()}]| Application stopped.`);
-      await this.methodInstance.stop();
+      await this.methodInstance.stop(false);
     } catch (error) {
       console.error(error);
     }

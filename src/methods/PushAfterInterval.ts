@@ -46,9 +46,9 @@ class PushAfterInterval {
       }
     }
 
-    process.on("SIGINT", async () => {
-      await this.stop();
-    });
+    // process.on("SIGINT" || "exit", async () => {
+    //   await this.stop();
+    // });
   }
 
   /**
@@ -86,7 +86,7 @@ class PushAfterInterval {
   /**
    * Terminates the instance
    */
-  async stop() {
+  async stop(exit: boolean = false) {
     this.active = false;
     try {
       let index = 0;
@@ -126,7 +126,9 @@ class PushAfterInterval {
                 console.log(
                   `⚙️ |[${getCurrentTime()}]| PushAfterInterval instance terminated.`
                 );
-                process.exit(0);
+                {
+                  exit ? process.exit(0) : "";
+                }
               } else {
                 index++;
               }
