@@ -113,10 +113,14 @@ class PushAfterInterval {
             const c = db.collection(collectionName);
             c.deleteMany({}).then(() => {
               // Insert all the documents in the collection
-              res.forEach(async (document: any) => {
-                c.insertOne(document).catch((error) => {
-                  throw error;
-                });
+              res.forEach((document: any) => {
+                c.insertOne(document)
+                  .catch((error) => {
+                    throw error;
+                  })
+                  .then(() => {
+                    console.log("Pushing a document!");
+                  });
               });
 
               console.log(
