@@ -16,6 +16,24 @@
 
 RAGE is a data management approach that prioritizes a smooth and responsive user experience. It leverages local data storage to deliver information quickly, even in offline scenarios. This reduces reliance on network requests, resulting in faster loading times and lower data usage.
 
+<!-- 1. How it works?
+2. Tech stack
+3. More about the RAGE approach and the 3 methods (PAI, POU, NI)
+4. Mention the user to read contributing.md and code_of_conduct.md -->
+
+# Tech Stack
+
+- Javascript
+- Typescript
+- Node.js
+- MongoDB
+- Packages/Modules:
+  - [`@types/node@20.12.12`](https://www.npmjs.com/package/@types/node) - `devDep`
+  - [`mongodb@6.6.1`](https://www.npmjs.com/package/mongodb) - `dep`
+  - [`fs@10.5.0`](https://nodejs.org/api/fs.html) - `builtIn`
+  - [`tsup@8.0.2`](https://www.npmjs.com/package/tsup) - `devDep`
+  - [`typescript@5.4.5`](https://www.npmjs.com/package/typescript) - `devDep`
+
 <div align="center">
 
 _Made with 💢 and Node.js_
