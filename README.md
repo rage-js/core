@@ -21,6 +21,10 @@ RAGE is a data management approach that prioritizes a smooth and responsive user
 3. More about the RAGE approach and the 3 methods (PAI, POU, NI)
 4. Mention the user to read contributing.md and code_of_conduct.md -->
 
+# Table of Contents
+
+- [Tech Stack](#tech-stack)
+
 # Tech Stack
 
 - Javascript
@@ -33,6 +37,9 @@ RAGE is a data management approach that prioritizes a smooth and responsive user
   - [`fs@10.5.0`](https://nodejs.org/api/fs.html) - `builtIn`
   - [`tsup@8.0.2`](https://www.npmjs.com/package/tsup) - `devDep`
   - [`typescript@5.4.5`](https://www.npmjs.com/package/typescript) - `devDep`
+
+<br>
+<br>
 
 <div align="center">
 
