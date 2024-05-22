@@ -56,7 +56,7 @@ Just as the [first method](#push-after-interval), you will clone the cloud datab
 
 ### No Interval
 
-This method is literally the opposite version of the [Push After Interval](#push-after-interval) where you clone the cloud database in the application start and push the local data back to the cloud on the application end. But this method only does that, it just fetch on start and push back on end.
+This method only clones the cloud database in the application start and it pushes back on the application end. It does nothing in the middle of the application running.
 
 # How it works?
 
