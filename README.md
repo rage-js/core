@@ -25,6 +25,10 @@ RAGE is a data management approach that prioritizes a smooth and responsive user
 
 - [Tech Stack](#tech-stack)
 - [What is this RAGE approach](#what-is-this-rage-approach)
+  - [Methods](#methods)
+    - [Push After Interval](#push-after-interval)
+    - [Push On Update](#push-on-update)
+    - [No Interval](#no-interval)
 - [How it works](#how-it-works)
 
 # What is this RAGE approach?
