@@ -24,6 +24,41 @@ RAGE is a data management approach that prioritizes a smooth and responsive user
 # Table of Contents
 
 - [Tech Stack](#tech-stack)
+- [What is this RAGE approach](#what-is-this-rage-approach)
+- [How it works](#how-it-works)
+
+# What is this RAGE approach?
+
+RAGE is a simple yet powerful database approach which solves many of the cloud database issues like:
+
+- Offline availability
+- Faster performance
+- Reduces requests made to the database which might limit the user to send only a certain amount of requests per day`/`month`/`year
+- Database locally accessible
+
+RAGE approach is basically just cloning the cloud datbases (i.e. MongoDB, Firebase, MySQL, etc) into local files (i.e. JSON, sqlite, csv), then you can use RAGE module itself to manage the data.
+
+## Methods
+
+This approach itself can be implemented in 3 different ways:
+
+1. Push After Interval (PAI)
+2. Push On Update (POU)
+3. No Interval (NI)
+
+### Push After Interval
+
+This method is relatively simple. Basically on the application start, you will clone the cloud database into local files and then you shall set a certain interval in the application and everytime after that interval, the local files will be pushed back to the cloud database and finally at the application end, the local files will be pushed back to the cloud database again.
+
+### Push On Update
+
+Just as the [first method](#push-after-interval), you will clone the cloud database into local files but instead of pushing the local data after every certain interval, you shall push the local data every time the local files are updated. Well it's less efficient than the previous one, imagine a scenario where you had to handle 100+ updates to the local data at the same time? can you successfully push the local data for every update? No right? Even if this method has one and huge con, this method still exists.
+
+### No Interval
+
+This method is literally the opposite version of the [Push After Interval]
+
+# How it works?
 
 # Tech Stack
 
