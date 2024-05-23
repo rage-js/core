@@ -46,9 +46,9 @@ In this approach, you shall clone the cloud database to local files on the appli
 
 Even if the approach works, you can still customize the behavior of what to do in the middle of the instance, etc with these three primary methods:
 
-1. Push After Interval (PAI)
-2. Push On Update (POU)
-3. No Interval (NI)
+1. [Push After Interval (PAI)](#push-after-interval)
+2. [Push On Update (POU)](#push-on-update)
+3. [No Interval (NI)](#no-interval)
 
 ### Push After Interval
 
@@ -84,6 +84,8 @@ We write the module code initally in Typescript and later on production, you can
 <br>
 
 <div align="center">
+
+_Thank you all for the love and support_
 
 _Made with 💢 and Node.js_
 
