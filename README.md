@@ -66,7 +66,7 @@ You can use this method if you don't want to do anything in the middle of the in
 
 # How the RAGE module codebase works? 👀
 
-We write the module code initally in Typescript and later on production, you can compile it to CJS and ESM simultaneously. The module code greatly adopts the OOP _(Object Oriented Programming)_ methods, that's why you may witness the majority of the functions are inside a class.
+We write the module code initally in Typescript and later on production, you can compile it to CJS and ESM simultaneously using [`tsup`](https://www.npmjs.com/package/tsup) module. The module code greatly adopts the OOP _(Object Oriented Programming)_ methods, that's why you may witness the majority of the functions are inside a class.
 
 # How to use this module? 🤔
 
