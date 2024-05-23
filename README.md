@@ -44,7 +44,7 @@ In this approach, you shall clone the cloud database to local files on the appli
 
 ## Methods
 
-Even if the approach works, you can still customize the behavior of what to do in the middle, etc with these three primary methods:
+Even if the approach works, you can still customize the behavior of what to do in the middle of the instance, etc with these three primary methods:
 
 1. Push After Interval (PAI)
 2. Push On Update (POU)
@@ -56,7 +56,7 @@ In the middle of the instance, it will push the local data to the cloud after ev
 
 ### Push On Update
 
-Just as the [first method](#push-after-interval), you will clone the cloud database into local files but instead of pushing the local data after every certain interval, you shall push the local data every time the local files are updated. Well it's less efficient than the previous one, imagine a scenario where you had to handle 100+ updates to the local data at the same time? can you successfully push the local data for every update? No right? Even if this method has one and huge con, this method still exists.
+This method will make the application push on every update that occurs on the local files. This is the most less efficient way compared to the other methods but it still can be used in certain cases.
 
 ### No Interval
 
