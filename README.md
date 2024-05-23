@@ -23,13 +23,15 @@ RAGE is a data management approach that prioritizes a smooth and responsive user
 
 # Table of Contents
 
-- [Tech Stack](#tech-stack)
+- [Table of Contents](#table-of-contents)
 - [What is this RAGE approach](#what-is-this-rage-approach)
   - [Methods](#methods)
     - [Push After Interval](#push-after-interval)
     - [Push On Update](#push-on-update)
     - [No Interval](#no-interval)
 - [How the RAGE module codebase works](#how-the-rage-module-codebase-works)
+- [How to use this module](#how-to-use-this-module)
+- [Tech Stack](#tech-stack)
 
 # What is RAGE approach?
 
@@ -64,7 +66,12 @@ You can use this method if you don't want to do anything in the middle of the in
 
 # How the RAGE module codebase works?
 
-We write the module code initally in Typescript and later on production, you can compile it to CJS and ESM simultaneously. The module code greatly adopts the OOP _(Object Oriented Programming)_ methods.
+We write the module code initally in Typescript and later on production, you can compile it to CJS and ESM simultaneously. The module code greatly adopts the OOP _(Object Oriented Programming)_ methods, that's why you may witness the majority of the functions are inside a class.
+
+# How to use this module?
+
+> [!WARNING]
+> Sorry! This section is under very very heavy development!
 
 # Tech Stack
 
