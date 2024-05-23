@@ -37,14 +37,14 @@ RAGE is a simple yet powerful database approach which solves many of the cloud d
 
 - Offline availability
 - Faster performance
-- Reduces requests made to the database which might limit the user to send only a certain amount of requests per day`/`month`/`year
+- Reduces requests made to the cloud databases which might limit the user to send only a certain amount of requests per day`/`month`/`year
 - Database locally accessible
 
-RAGE approach is basically just cloning the cloud datbases (i.e. MongoDB, Firebase, MySQL, etc) into local files (i.e. JSON, sqlite, csv), then you can use RAGE module itself to manage the data.
+In this approach, you shall clone the cloud database to local files on the application start and once the application is about end, the local files will be pushed back to the cloud database and deleted. Well the local files will be deleted after the final push making it more secure. But if there is any error during the final push process, the local files will not be deleted and awaits to push once the cloud database is back online.
 
 ## Methods
 
-This approach itself can be implemented in 3 different ways:
+The approach still can be customized by the user needs with these three primary methods:
 
 1. Push After Interval (PAI)
 2. Push On Update (POU)
