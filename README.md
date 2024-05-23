@@ -60,7 +60,7 @@ This method will make the application push on every update that occurs on the lo
 
 ### No Interval
 
-This method only clones the cloud database in the application start and it pushes back on the application end. It does nothing in the middle of the application running.
+You can use this method if you don't want to do anything in the middle of the instance.
 
 # How it works?
 
