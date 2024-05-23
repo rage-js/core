@@ -31,7 +31,7 @@ RAGE is a data management approach that prioritizes a smooth and responsive user
     - [No Interval](#no-interval)
 - [How the RAGE module codebase works](#how-the-rage-module-codebase-works)
 
-# What is this RAGE approach?
+# What is RAGE approach?
 
 RAGE is a simple yet powerful database approach which solves many of the cloud database issues like:
 
