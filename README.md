@@ -29,7 +29,7 @@ RAGE is a data management approach that prioritizes a smooth and responsive user
     - [Push After Interval](#push-after-interval)
     - [Push On Update](#push-on-update)
     - [No Interval](#no-interval)
-- [How it works](#how-it-works)
+- [How the RAGE module codebase works](#how-the-rage-module-codebase-works)
 
 # What is this RAGE approach?
 
@@ -62,13 +62,16 @@ This method will make the application push on every update that occurs on the lo
 
 You can use this method if you don't want to do anything in the middle of the instance.
 
-# How it works?
+# How the RAGE module codebase works?
+
+We write the module code initally in Typescript and later on production, you can compile it to CJS and ESM simultaneously. The module code greatly adopts the OOP _(Object Oriented Programming)_ methods.
 
 # Tech Stack
 
 - Javascript
 - Typescript
 - Node.js
+- JSDoc _(Documentation only)_
 - MongoDB
 - Packages/Modules:
   - [`@types/node@20.12.12`](https://www.npmjs.com/package/@types/node) - `devDep`
