@@ -44,7 +44,7 @@ In this approach, you shall clone the cloud database to local files on the appli
 
 ## Methods
 
-The approach still can be customized by the user needs with these three primary methods:
+Even if the approach works, you can still customize the behavior of what to do in the middle, etc with these three primary methods:
 
 1. Push After Interval (PAI)
 2. Push On Update (POU)
@@ -52,7 +52,7 @@ The approach still can be customized by the user needs with these three primary 
 
 ### Push After Interval
 
-This method is relatively simple. Basically on the application start, you will clone the cloud database into local files and then you shall set a certain interval in the application and everytime after that interval, the local files will be pushed back to the cloud database and finally at the application end, the local files will be pushed back to the cloud database again.
+In the middle of the instance, it will push the local data to the cloud after every certain interval given by the user. This is the most efficient way compared to the other methods.
 
 ### Push On Update
 
