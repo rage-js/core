@@ -21,7 +21,7 @@ RAGE is a data management approach that prioritizes a smooth and responsive user
 3. More about the RAGE approach and the 3 methods (PAI, POU, NI)
 4. Mention the user to read contributing.md and code_of_conduct.md -->
 
-# Table of Contents
+# Table of Contents 📃
 
 - [Table of Contents](#table-of-contents)
 - [What is this RAGE approach](#what-is-this-rage-approach)
@@ -33,7 +33,7 @@ RAGE is a data management approach that prioritizes a smooth and responsive user
 - [How to use this module](#how-to-use-this-module)
 - [Tech Stack](#tech-stack)
 
-# What is RAGE approach?
+# What is RAGE approach? 🤔
 
 RAGE is a simple yet powerful database approach which solves many of the cloud database issues like:
 
@@ -44,7 +44,7 @@ RAGE is a simple yet powerful database approach which solves many of the cloud d
 
 In this approach, you shall clone the cloud database to local files on the application start and once the application is about end, the local files will be pushed back to the cloud database and deleted. Well the local files will be deleted after the final push making it more secure. But if there is any error during the final push process, the local files will not be deleted and awaits to push once the cloud database is back online.
 
-## Methods
+## Methods ⚡
 
 Even if the approach works, you can still customize the behavior of what to do in the middle of the instance, etc with these three primary methods:
 
@@ -52,28 +52,28 @@ Even if the approach works, you can still customize the behavior of what to do i
 2. [Push On Update (POU)](#push-on-update)
 3. [No Interval (NI)](#no-interval)
 
-### Push After Interval
+### Push After Interval ⏱️
 
 In the middle of the instance, it will push the local data to the cloud after every certain interval given by the user. This is the most efficient way compared to the other methods.
 
-### Push On Update
+### Push On Update ⤴️
 
 This method will make the application push on every update that occurs on the local files. This is the most less efficient way compared to the other methods but it still can be used in certain cases.
 
-### No Interval
+### No Interval 🔄️
 
 You can use this method if you don't want to do anything in the middle of the instance.
 
-# How the RAGE module codebase works?
+# How the RAGE module codebase works? 👀
 
 We write the module code initally in Typescript and later on production, you can compile it to CJS and ESM simultaneously. The module code greatly adopts the OOP _(Object Oriented Programming)_ methods, that's why you may witness the majority of the functions are inside a class.
 
-# How to use this module?
+# How to use this module? 🤔
 
 > [!WARNING]
 > Sorry! This section is under very very heavy development!
 
-# Tech Stack
+# Tech Stack 🪛
 
 - Javascript
 - Typescript
