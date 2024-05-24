@@ -1,2 +1,4 @@
-1. How to clone and push changes and stuff
-2. Mention important tips and notes
+# This page is under development!
+
+> [!IMPORTANT]
+> You can contact the owner of this repository @Maghish using his discord username `qspbruh` for any questions or feedbacks.
