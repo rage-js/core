@@ -24,10 +24,13 @@
   "homepage": "https://github.com/Maghish/RAGE#readme",
   "devDependencies": {
     "@types/node": "^20.12.12",
+    "ts-node": "^10.9.2",
     "tsup": "^8.0.2",
     "typescript": "^5.4.5"
   },
   "dependencies": {
+    "@inquirer/prompts": "^5.0.4",
+    "chalk": "^5.3.0",
     "mongodb": "^6.6.1"
   },
   "exports": {
