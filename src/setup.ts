@@ -32,7 +32,6 @@ async function prompt() {
             description:
               "Visit this URL for docs: https://github.com/Maghish/RAGE?tab=readme-ov-file#push-after-interval-%EF%B8%8F",
           },
-          new Separator(),
           {
             name: "Push On Update",
             value: "POU",
@@ -49,6 +48,8 @@ async function prompt() {
           },
         ],
       });
+
+      return [dirPath, moduleType, method];
     } else {
       console.log("Please enter the working directory properly and try again!");
       process.exit(1);
@@ -64,4 +65,9 @@ async function prompt() {
   }
 }
 
-prompt();
+async function start() {
+  const res = await prompt();
+  console.log(res);
+}
+
+start();
