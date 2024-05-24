@@ -5,7 +5,11 @@ import { input, select, Separator } from "@inquirer/prompts";
 async function prompt() {
   try {
     // File setup related questions
-    var dirPath = await input({ message: "Enter the directory path:" });
+    var dirPath = await input({
+      message:
+        "Enter the directory path (Hit enter to proceed with current directory):",
+      default: ".",
+    });
     dirPath = dirPath.toString();
     if (dirPath && dirPath !== "") {
       var moduleType = await select({
@@ -37,14 +41,14 @@ async function prompt() {
             value: "POU",
             description:
               "Visit this URL for docs: https://github.com/Maghish/RAGE?tab=readme-ov-file#push-on-update-%EF%B8%8F",
-            disabled: "(Push On Update not supported yet)",
+            disabled: "(Not supported yet)",
           },
           {
             name: "No Interval",
             value: "NI",
             description:
               "Visit this URL for docs: https://github.com/Maghish/RAGE?tab=readme-ov-file#no-interval-%EF%B8%8F",
-            disabled: "(No Interval not supported yet)",
+            disabled: "(Not supported yet)",
           },
         ],
       });
