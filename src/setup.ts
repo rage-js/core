@@ -1,9 +1,37 @@
 #!/usr/bin/env node
 
+interface promptFunctionReturnValues {
+  dirPath: string;
+  mainFile: string;
+  moduleType: "commonjs" | "module";
+  method: "PAI" | "POU" | "NI";
+  interval?: number;
+  databaseType: "MongoDB";
+  databaseSecret?: string;
+  mongodbDatabasedbs?: string[];
+  mongodbDatabaseExcludeCollections?: string[];
+  outDir: string;
+}
+
 import { input, select, Separator } from "@inquirer/prompts";
 
+/**
+ * Prompts different set of questions for the user to answer and return the user's answers.
+ * @returns {promptFunctionReturnValues | undefined}
+ */
 async function prompt() {
   try {
+    // Initialize with default values
+    var returnValues: promptFunctionReturnValues = {
+      dirPath: ".",
+      mainFile: "index.js",
+      moduleType: "commonjs",
+      method: "PAI",
+      interval: 600000,
+      databaseType: "MongoDB",
+      outDir: ".",
+    };
+
     // File setup related questions
     var dirPath = await input({
       message:
@@ -12,13 +40,17 @@ async function prompt() {
     });
     dirPath = dirPath.toString();
     if (dirPath && dirPath !== "") {
+      returnValues.dirPath = dirPath;
+
       var mainFile = await input({
         message:
           "Enter the main file name (Hit enter to proceed with default option):",
         default: "index.js",
       });
       if (mainFile && mainFile !== "") {
-        var moduleType = await select({
+        returnValues.mainFile = mainFile;
+
+        var moduleType: "commonjs" | "module" = await select({
           message: "Enter the package type:",
           choices: [
             {
@@ -32,8 +64,10 @@ async function prompt() {
           ],
         });
 
+        returnValues.moduleType = moduleType;
+
         // RAGE related questions
-        var method = await select({
+        var method: "PAI" | "POU" | "NI" = await select({
           message: "Enter which RAGE method to use for this project:",
           choices: [
             {
@@ -59,7 +93,17 @@ async function prompt() {
           ],
         });
 
-        return [dirPath, moduleType, method];
+        returnValues.method = method;
+
+        if (method === "PAI") {
+          var interval = await input({
+            message: "Set the interval (Enter in milliseconds):",
+          });
+
+          returnValues.interval = Number(interval);
+        }
+
+        return returnValues;
       } else {
         console.log("Please enter the file name properly and try again!");
         process.exit(1);
