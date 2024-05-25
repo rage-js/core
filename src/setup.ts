@@ -96,11 +96,23 @@ async function prompt() {
         returnValues.method = method;
 
         if (method === "PAI") {
-          var interval = await input({
+          var interval: string | number = await input({
             message: "Set the interval (Enter in milliseconds):",
           });
 
-          returnValues.interval = Number(interval);
+          interval = Number(interval);
+
+          if (!interval) {
+            console.log("Please enter a valid value and try again!");
+            process.exit(1);
+          } else if (interval < 5000) {
+            console.log(
+              "Please enter milliseconds more than 5000 and try again!"
+            );
+            process.exit(1);
+          }
+
+          returnValues.interval = interval;
         }
 
         var databaseType: "MongoDB" = await select({
@@ -119,7 +131,6 @@ async function prompt() {
           var databaseSecret: string = await input({
             message: "Enter the database secret key (MongoDB URI):",
           });
-          returnValues.databaseSecret = databaseSecret;
 
           var mongodbDatabasedbs: string | string[] = await input({
             message:
