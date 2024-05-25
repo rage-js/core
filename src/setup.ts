@@ -103,6 +103,30 @@ async function prompt() {
           returnValues.interval = Number(interval);
         }
 
+        var databaseType: "MongoDB" = await select({
+          message: "Select the cloud database",
+          choices: [
+            {
+              name: "MongoDB",
+              value: "MongoDB",
+            },
+          ],
+        });
+
+        returnValues.databaseType = databaseType;
+
+        if (databaseType === "MongoDB") {
+          var databaseSecret: string = await input({
+            message: "Enter the database secret key (MongoDB URI):",
+          });
+          returnValues.databaseSecret = databaseSecret;
+
+          var mongodbDatabasedbs: string = await input({
+            message:
+              "Enter the whitelisted databases (Use ',' to seperate the values):",
+          });
+        }
+
         return returnValues;
       } else {
         console.log("Please enter the file name properly and try again!");
