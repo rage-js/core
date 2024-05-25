@@ -201,9 +201,15 @@ async function prompt() {
   }
 }
 
+/**
+ * Initial function to run on start
+ */
 async function start() {
+  // Ask the user questions
   const res = await prompt();
   console.log(res);
+  // Create a directory
+  // Create rage.config.json file
 }
 
 start();
