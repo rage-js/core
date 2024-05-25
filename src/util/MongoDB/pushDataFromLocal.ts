@@ -17,7 +17,11 @@ async function pushDataFromLocal({
       .then(async (collections: any) => {
         for (const collection of collections) {
           const collectionName = collection.name;
-          if (collectionName in configSettings.excludeCollections) {
+          if (
+            configSettings.excludeCollections.includes(
+              `${dbName}/${collectionName}`
+            )
+          ) {
             // Skip
           } else {
             const res = await readJsonFiles({
