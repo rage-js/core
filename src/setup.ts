@@ -121,10 +121,29 @@ async function prompt() {
           });
           returnValues.databaseSecret = databaseSecret;
 
-          var mongodbDatabasedbs: string = await input({
+          var mongodbDatabasedbs: string | string[] = await input({
             message:
               "Enter the whitelisted databases (Use ',' to seperate the values):",
           });
+
+          mongodbDatabasedbs = mongodbDatabasedbs.split(",");
+          mongodbDatabasedbs = mongodbDatabasedbs.map((e) => e.trim());
+
+          returnValues.mongodbDatabasedbs = mongodbDatabasedbs;
+
+          var mongodbDatabaseExcludeCollections: string | string[] =
+            await input({
+              message:
+                "Enter the blacklisted collections in all databases (Mention the database of the collection, e.g. 'db/col') (Use ',' to seperate the values):",
+            });
+
+          mongodbDatabaseExcludeCollections =
+            mongodbDatabaseExcludeCollections.split(",");
+          mongodbDatabaseExcludeCollections =
+            mongodbDatabaseExcludeCollections.map((e) => e.trim());
+
+          returnValues.mongodbDatabaseExcludeCollections =
+            mongodbDatabaseExcludeCollections;
         }
 
         return returnValues;
