@@ -146,6 +146,21 @@ async function prompt() {
             mongodbDatabaseExcludeCollections;
         }
 
+        var outDir = await input({
+          message:
+            "Enter the directory to store the local files (Hit enter to proceed with default option):",
+          default: ".",
+        });
+
+        if (outDir && outDir !== "") {
+          returnValues.outDir = outDir;
+        } else {
+          console.log(
+            "Please enter the directory path properly and try again!"
+          );
+          process.exit(1);
+        }
+
         return returnValues;
       } else {
         console.log("Please enter the file name properly and try again!");
