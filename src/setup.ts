@@ -132,6 +132,15 @@ async function prompt() {
             message: "Enter the database secret key (MongoDB URI):",
           });
 
+          if (databaseSecret && databaseSecret !== "") {
+            returnValues.databaseSecret = databaseSecret;
+          } else {
+            console.log(
+              "Please enter the database secret key (MongoDB URI) properly and try again!"
+            );
+            process.exit(1);
+          }
+
           var mongodbDatabasedbs: string | string[] = await input({
             message:
               "Enter the whitelisted databases (Use ',' to seperate the values):",
