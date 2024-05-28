@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 interface promptFunctionReturnValues {
+  projectName: string;
   dirPath: string;
   mainFile: string;
   moduleType: "commonjs" | "module";
@@ -23,6 +24,7 @@ async function prompt() {
   try {
     // Initialize with default values
     var returnValues: promptFunctionReturnValues = {
+      projectName: "",
       dirPath: ".",
       mainFile: "index.js",
       moduleType: "commonjs",
@@ -33,161 +35,175 @@ async function prompt() {
     };
 
     // File setup related questions
-    var dirPath = await input({
-      message:
-        "Enter the directory path (Hit enter to proceed with default option):",
-      default: ".",
+    var projectName = await input({
+      message: "Enter the application/project name:",
     });
-    dirPath = dirPath.toString();
-    if (dirPath && dirPath !== "") {
-      returnValues.dirPath = dirPath;
+    if (projectName && projectName !== "") {
+      returnValues.projectName = projectName;
 
-      var mainFile = await input({
+      var dirPath = await input({
         message:
-          "Enter the main file name (Hit enter to proceed with default option):",
-        default: "index.js",
+          "Enter the directory path (Hit enter to proceed with default option):",
+        default: ".",
       });
-      if (mainFile && mainFile !== "") {
-        returnValues.mainFile = mainFile;
+      dirPath = dirPath.toString();
+      if (dirPath && dirPath !== "") {
+        returnValues.dirPath = dirPath;
 
-        var moduleType: "commonjs" | "module" = await select({
-          message: "Enter the package type:",
-          choices: [
-            {
-              name: "commonjs",
-              value: "commonjs",
-            },
-            {
-              name: "module",
-              value: "module",
-            },
-          ],
+        var mainFile = await input({
+          message:
+            "Enter the main file name (Hit enter to proceed with default option):",
+          default: "index.js",
         });
+        if (mainFile && mainFile !== "") {
+          returnValues.mainFile = mainFile;
 
-        returnValues.moduleType = moduleType;
-
-        // RAGE related questions
-        var method: "PAI" | "POU" | "NI" = await select({
-          message: "Enter which RAGE method to use for this project:",
-          choices: [
-            {
-              name: "Push After Interval",
-              value: "PAI",
-              description:
-                "Visit this URL for docs: https://github.com/Maghish/RAGE?tab=readme-ov-file#push-after-interval-%EF%B8%8F",
-            },
-            {
-              name: "Push On Update",
-              value: "POU",
-              description:
-                "Visit this URL for docs: https://github.com/Maghish/RAGE?tab=readme-ov-file#push-on-update-%EF%B8%8F",
-              disabled: "(Not supported yet)",
-            },
-            {
-              name: "No Interval",
-              value: "NI",
-              description:
-                "Visit this URL for docs: https://github.com/Maghish/RAGE?tab=readme-ov-file#no-interval-%EF%B8%8F",
-              disabled: "(Not supported yet)",
-            },
-          ],
-        });
-
-        returnValues.method = method;
-
-        if (method === "PAI") {
-          var interval: string | number = await input({
-            message: "Set the interval (Enter in milliseconds):",
+          var moduleType: "commonjs" | "module" = await select({
+            message: "Enter the package type:",
+            choices: [
+              {
+                name: "commonjs",
+                value: "commonjs",
+              },
+              {
+                name: "module",
+                value: "module",
+              },
+            ],
           });
 
-          interval = Number(interval);
+          returnValues.moduleType = moduleType;
 
-          if (!interval) {
-            console.log("Please enter a valid value and try again!");
-            process.exit(1);
-          } else if (interval < 5000) {
-            console.log(
-              "Please enter milliseconds more than 5000 and try again!"
-            );
-            process.exit(1);
-          }
-
-          returnValues.interval = interval;
-        }
-
-        var databaseType: "MongoDB" = await select({
-          message: "Select the cloud database",
-          choices: [
-            {
-              name: "MongoDB",
-              value: "MongoDB",
-            },
-          ],
-        });
-
-        returnValues.databaseType = databaseType;
-
-        if (databaseType === "MongoDB") {
-          var databaseSecret: string = await input({
-            message: "Enter the database secret key (MongoDB URI):",
+          // RAGE related questions
+          var method: "PAI" | "POU" | "NI" = await select({
+            message: "Enter which RAGE method to use for this project:",
+            choices: [
+              {
+                name: "Push After Interval",
+                value: "PAI",
+                description:
+                  "Visit this URL for docs: https://github.com/Maghish/RAGE?tab=readme-ov-file#push-after-interval-%EF%B8%8F",
+              },
+              {
+                name: "Push On Update",
+                value: "POU",
+                description:
+                  "Visit this URL for docs: https://github.com/Maghish/RAGE?tab=readme-ov-file#push-on-update-%EF%B8%8F",
+                disabled: "(Not supported yet)",
+              },
+              {
+                name: "No Interval",
+                value: "NI",
+                description:
+                  "Visit this URL for docs: https://github.com/Maghish/RAGE?tab=readme-ov-file#no-interval-%EF%B8%8F",
+                disabled: "(Not supported yet)",
+              },
+            ],
           });
 
-          if (databaseSecret && databaseSecret !== "") {
-            returnValues.databaseSecret = databaseSecret;
-          } else {
-            console.log(
-              "Please enter the database secret key (MongoDB URI) properly and try again!"
-            );
-            process.exit(1);
-          }
+          returnValues.method = method;
 
-          var mongodbDatabasedbs: string | string[] = await input({
-            message:
-              "Enter the whitelisted databases (Use ',' to seperate the values):",
-          });
-
-          mongodbDatabasedbs = mongodbDatabasedbs.split(",");
-          mongodbDatabasedbs = mongodbDatabasedbs.map((e) => e.trim());
-
-          returnValues.mongodbDatabasedbs = mongodbDatabasedbs;
-
-          var mongodbDatabaseExcludeCollections: string | string[] =
-            await input({
-              message:
-                "Enter the blacklisted collections in all databases (Mention the database of the collection, e.g. 'db/col') (Use ',' to seperate the values):",
+          if (method === "PAI") {
+            var interval: string | number = await input({
+              message: "Set the interval (Enter in milliseconds):",
             });
 
-          mongodbDatabaseExcludeCollections =
-            mongodbDatabaseExcludeCollections.split(",");
-          mongodbDatabaseExcludeCollections =
-            mongodbDatabaseExcludeCollections.map((e) => e.trim());
+            interval = Number(interval);
 
-          returnValues.mongodbDatabaseExcludeCollections =
-            mongodbDatabaseExcludeCollections;
-        }
+            if (!interval) {
+              console.log("Please enter a valid value and try again!");
+              process.exit(1);
+            } else if (interval < 5000) {
+              console.log(
+                "Please enter milliseconds more than 5000 and try again!"
+              );
+              process.exit(1);
+            }
 
-        var outDir = await input({
-          message:
-            "Enter the directory to store the local files (Hit enter to proceed with default option):",
-          default: ".",
-        });
+            returnValues.interval = interval;
+          }
 
-        if (outDir && outDir !== "") {
-          returnValues.outDir = outDir;
+          var databaseType: "MongoDB" = await select({
+            message: "Select the cloud database",
+            choices: [
+              {
+                name: "MongoDB",
+                value: "MongoDB",
+              },
+            ],
+          });
+
+          returnValues.databaseType = databaseType;
+
+          if (databaseType === "MongoDB") {
+            var databaseSecret: string = await input({
+              message: "Enter the database secret key (MongoDB URI):",
+            });
+
+            if (databaseSecret && databaseSecret !== "") {
+              returnValues.databaseSecret = databaseSecret;
+            } else {
+              console.log(
+                "Please enter the database secret key (MongoDB URI) properly and try again!"
+              );
+              process.exit(1);
+            }
+
+            var mongodbDatabasedbs: string | string[] = await input({
+              message:
+                "Enter the whitelisted databases (Use ',' to seperate the values):",
+            });
+
+            mongodbDatabasedbs = mongodbDatabasedbs.split(",");
+            mongodbDatabasedbs = mongodbDatabasedbs.map((e) => e.trim());
+
+            returnValues.mongodbDatabasedbs = mongodbDatabasedbs;
+
+            var mongodbDatabaseExcludeCollections: string | string[] =
+              await input({
+                message:
+                  "Enter the blacklisted collections in all databases (Mention the database of the collection, e.g. 'db/col') (Use ',' to seperate the values):",
+              });
+
+            mongodbDatabaseExcludeCollections =
+              mongodbDatabaseExcludeCollections.split(",");
+            mongodbDatabaseExcludeCollections =
+              mongodbDatabaseExcludeCollections.map((e) => e.trim());
+
+            returnValues.mongodbDatabaseExcludeCollections =
+              mongodbDatabaseExcludeCollections;
+          }
+
+          var outDir = await input({
+            message:
+              "Enter the directory to store the local files (Hit enter to proceed with default option):",
+            default: ".",
+          });
+
+          if (outDir && outDir !== "") {
+            returnValues.outDir = outDir;
+          } else {
+            console.log(
+              "Please enter the directory path properly and try again!"
+            );
+            process.exit(1);
+          }
+
+          return returnValues;
         } else {
-          console.log(
-            "Please enter the directory path properly and try again!"
-          );
+          console.log("Please enter the file name properly and try again!");
           process.exit(1);
         }
-
-        return returnValues;
       } else {
-        console.log("Please enter the file name properly and try again!");
+        console.log(
+          "Please enter the working directory properly and try again!"
+        );
         process.exit(1);
       }
     } else {
-      console.log("Please enter the working directory properly and try again!");
+      console.log(
+        "Please enter a valid name for the application/project and try again!"
+      );
       process.exit(1);
     }
   } catch (error: any) {
@@ -210,6 +226,8 @@ async function start() {
   console.log(res);
   // Create a directory
   // Create rage.config.json file
+  // Write package.json
+  // Write the main file
 }
 
 start();
