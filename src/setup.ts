@@ -106,7 +106,9 @@ async function prompt() {
 
           if (method === "PAI") {
             var interval: string | number = await input({
-              message: "Set the interval (Enter in milliseconds):",
+              message:
+                "Set the interval (Enter in milliseconds) (Hit enter to proceed with default option):",
+              default: "600000",
             });
 
             interval = Number(interval);
@@ -119,7 +121,7 @@ async function prompt() {
             } else if (interval < 5000) {
               console.log(
                 chalk.red(
-                  "\nPlease enter milliseconds more than 5000 and try again!"
+                  "\nThe minimum interval should be above 5000 milliseconds!"
                 )
               );
               process.exit(1);
