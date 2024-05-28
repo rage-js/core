@@ -15,6 +15,7 @@ interface promptFunctionReturnValues {
 }
 
 import { input, select, Separator } from "@inquirer/prompts";
+import chalk from "chalk";
 
 /**
  * Prompts different set of questions for the user to answer and return the user's answers.
@@ -111,11 +112,15 @@ async function prompt() {
             interval = Number(interval);
 
             if (!interval) {
-              console.log("Please enter a valid value and try again!");
+              console.log(
+                chalk.red("\nPlease enter a valid value and try again!")
+              );
               process.exit(1);
             } else if (interval < 5000) {
               console.log(
-                "Please enter milliseconds more than 5000 and try again!"
+                chalk.red(
+                  "\nPlease enter milliseconds more than 5000 and try again!"
+                )
               );
               process.exit(1);
             }
@@ -144,7 +149,9 @@ async function prompt() {
               returnValues.databaseSecret = databaseSecret;
             } else {
               console.log(
-                "Please enter the database secret key (MongoDB URI) properly and try again!"
+                chalk.red(
+                  "\nPlease enter the database secret key (MongoDB URI) properly and try again!"
+                )
               );
               process.exit(1);
             }
@@ -184,34 +191,42 @@ async function prompt() {
             returnValues.outDir = outDir;
           } else {
             console.log(
-              "Please enter the directory path properly and try again!"
+              chalk.red(
+                "\nPlease enter the directory path properly and try again!"
+              )
             );
             process.exit(1);
           }
 
           return returnValues;
         } else {
-          console.log("Please enter the file name properly and try again!");
+          console.log(
+            chalk.red("\nPlease enter the file name properly and try again!")
+          );
           process.exit(1);
         }
       } else {
         console.log(
-          "Please enter the working directory properly and try again!"
+          chalk.red(
+            "\nPlease enter the working directory properly and try again!"
+          )
         );
         process.exit(1);
       }
     } else {
       console.log(
-        "Please enter a valid name for the application/project and try again!"
+        chalk.red(
+          "\nPlease enter a valid name for the application/project and try again!"
+        )
       );
       process.exit(1);
     }
   } catch (error: any) {
     if (error.code === "ExitPromptError") {
-      console.log("Unexpected error occured!");
+      console.log(chalk.red("\nUnexpected error occured!"));
       process.exit(1);
     } else {
-      console.log("Terminating process...");
+      console.log(chalk.redBright("\nTerminating process..."));
       process.exit(1);
     }
   }
