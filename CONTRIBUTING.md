@@ -1,4 +1,4 @@
 # This page is under development!
 
 > [!IMPORTANT]
-> You can contact the owner of this repository @Maghish using his discord username `qspbruh` for any questions or feedbacks.
+> You can contact @Maghish _(the repository owner)_ by using this repository's discussions and ask him to give you a tour of the codebase.
