@@ -85,7 +85,10 @@ We write the module code initally in Typescript and later on production, you can
   - [`mongodb@6.6.1`](https://www.npmjs.com/package/mongodb) - `dep`
   - [`fs@10.5.0`](https://nodejs.org/api/fs.html) - `builtIn`
   - [`tsup@8.0.2`](https://www.npmjs.com/package/tsup) - `devDep`
+  - [`ts-node@10.9.2`](https://www.npmjs.com/package/ts-node) - `devDep`
   - [`typescript@5.4.5`](https://www.npmjs.com/package/typescript) - `devDep`
+  - [`chalk@5.3.0`](https://www.npmjs.com/package/chalk) - `dep`
+  - [`@inquirer/prompts@5.0.4`](https://www.npmjs.com/package/inquirer) - `dep`
 
 <br>
 <br>
