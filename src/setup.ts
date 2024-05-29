@@ -16,6 +16,8 @@ interface promptFunctionReturnValues {
 
 import { input, select, Separator } from "@inquirer/prompts";
 import chalk from "chalk";
+import fs from "fs";
+import path from "path";
 
 /**
  * Prompts different set of questions for the user to answer and return the user's answers.
@@ -239,16 +241,80 @@ async function prompt() {
 }
 
 /**
+ * Function which creates all the files with the given information
+ * @param {promptFunctionReturnValues}
+ */
+async function createFiles(configSettings: promptFunctionReturnValues) {
+  // Create a directory
+  if (fs.existsSync(path.join(__dirname, configSettings.dirPath))) {
+  } else {
+    fs.mkdirSync(path.join(__dirname, configSettings.dirPath));
+    console.log("Directory created");
+  }
+
+  // Create rage.config.json file
+  const rageConfigFileData = {
+    method: configSettings.method,
+    methodSpecificSettings: {
+      interval: configSettings.interval,
+    },
+    database: {
+      type: configSettings.databaseType,
+      secretKey: configSettings.databaseSecret,
+      dbSpecificSettings: {
+        dbs: configSettings.mongodbDatabasedbs,
+        excludeCollections: configSettings.mongodbDatabaseExcludeCollections,
+      },
+    },
+    outDir: configSettings.outDir,
+  };
+
+  fs.writeFileSync(
+    path.join(__dirname, configSettings.dirPath + "/rage.config.json"),
+    JSON.stringify(rageConfigFileData, null, 2),
+    "utf-8"
+  );
+  console.log("Created rage.config.json");
+
+  // Write package.json
+  const packageJsonData = {
+    name: configSettings.projectName,
+    version: "1.0.0",
+    description: "",
+    main: configSettings.mainFile,
+    scripts: {
+      start: `node ${configSettings.mainFile}`,
+    },
+    keywords: [],
+    author: "",
+    license: "ISC",
+  };
+
+  fs.writeFileSync(
+    path.join(__dirname, configSettings.dirPath + "/package.json"),
+    JSON.stringify(packageJsonData, null, 2),
+    "utf-8"
+  );
+  console.log("Created package.json");
+
+  // Write the main file
+  try {
+  } catch (error: any) {
+    if (error.code === "ExitPromptError") {
+      console.log(chalk.red("\n Unexpected error occurred!"));
+    } else {
+      console.log(chalk.redBright("\nTerminating process..."));
+    }
+  }
+}
+
+/**
  * Initial function to run on start
  */
 async function start() {
   // Ask the user questions
   const res = await prompt();
-  console.log(res);
-  // Create a directory
-  // Create rage.config.json file
-  // Write package.json
-  // Write the main file
+  await createFiles(res);
 }
 
 start();

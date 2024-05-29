@@ -1,12 +1,12 @@
 {
-  "name": "rage",
-  "version": "0.0.1",
+  "name": "ragedb",
+  "version": "0.0.3",
   "description": "A tool to use the RAGE approach to manage databases",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup src/index.ts src/tool-kit/index.ts --format cjs,esm --dts"
+    "build": "tsup src/index.ts src/tool-kit/index.ts src/setup.ts --format cjs,esm --dts"
   },
   "repository": {
     "type": "git",
@@ -42,5 +42,8 @@
       "require": "./dist/tool-kit/index.js",
       "import": "./dist/tool-kit/index.mjs"
     }
+  },
+  "bin": {
+    "rage": "./dist/setup.js"
   }
 }
