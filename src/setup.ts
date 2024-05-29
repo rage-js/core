@@ -47,7 +47,6 @@ async function prompt() {
           "Enter the directory path (Hit enter to proceed with default option):",
         default: ".",
       });
-      dirPath = dirPath.toString();
       if (dirPath && dirPath !== "") {
         returnValues.dirPath = dirPath;
 
