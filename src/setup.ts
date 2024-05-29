@@ -55,7 +55,7 @@ async function prompt() {
             "Enter the main file name (Hit enter to proceed with default option):",
           default: "index.js",
         });
-        if (mainFile && mainFile !== "") {
+        if (mainFile && mainFile !== "" && mainFile.endsWith(".js")) {
           returnValues.mainFile = mainFile;
 
           var moduleType: "commonjs" | "module" = await select({
@@ -202,7 +202,12 @@ async function prompt() {
           return returnValues;
         } else {
           console.log(
-            chalk.red("\nPlease enter the file name properly and try again!")
+            chalk.red(
+              "\nPlease enter a valid file name with .js extension and try again!"
+            ) +
+              chalk.yellow(
+                "\nRAGE CLI doesn't support typescript nor any other files except javascript files yet."
+              )
           );
           process.exit(1);
         }
