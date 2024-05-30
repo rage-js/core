@@ -1,31 +1,34 @@
 {
-  "name": "rage-js",
+  "name": "@ragejs/cli",
   "version": "0.0.1",
-  "description": "RAGE.js is a database approach which helps you manage cloud databases in offline scenarios.",
+  "description": "RAGE Cli helps you build nodejs applications with support RAGE primarly.",
   "main": "index.js",
   "devDependencies": {
+    "@changesets/cli": "^2.27.5",
     "ts-node": "^10.9.2",
     "tsup": "^8.0.2",
     "typescript": "^5.4.5"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "ts-node src/index.ts"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Maghish/RAGE.git"
   },
   "keywords": [
+    "rage-cli",
     "rage",
-    "rage-js",
-    "ragejs"
+    "ragejs",
+    "rage-js"
   ],
   "author": "Maghish",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Maghish/RAGE/issues"
   },
-  "homepage": "https://github.com/Maghish/RAGE#readme",
+  "homepage": "https://github.com/Maghish/RAGE/tree/main/CLI#readme",
   "dependencies": {
     "@inquirer/prompts": "^5.0.4",
     "chalk": "^4.0.0",
