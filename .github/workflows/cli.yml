@@ -17,9 +17,8 @@ jobs:
         with:
           node-version: "latest"
 
-      - run: cd CLI
-      - run: ls
-      - run: npm install
+      - run: cd CLI && ls
+      - run: cd CLI && npm install
       - name: Create pull request or publish
         id: changesets
         uses: changesets/action@v1
