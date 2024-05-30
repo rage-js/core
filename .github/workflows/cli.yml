@@ -12,13 +12,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          path: "./CLI"
+          path: "."
       - uses: actions/setup-node@v4
         with:
           node-version: "latest"
 
-      - run: cd CLI && ls
-      - run: cd CLI && npm install
+      - run: cd CLI && cd CLI && ls
+      - run: cd CLI && cd CLI && npm install
       - name: Create pull request or publish
         id: changesets
         uses: changesets/action@v1
