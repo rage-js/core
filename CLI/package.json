@@ -4,12 +4,14 @@
   "description": "RAGE Cli helps you build nodejs applications with support RAGE primarly.",
   "main": "index.js",
   "devDependencies": {
+    "@changesets/cli": "^2.27.5",
     "ts-node": "^10.9.2",
     "tsup": "^8.0.2",
     "typescript": "^5.4.5"
   },
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts"
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "ts-node src/index.ts"
   },
   "repository": {
     "type": "git",

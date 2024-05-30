@@ -1,0 +1,23 @@
+name: Publish CLI
+on:
+  push:
+    branches:
+      - "main"
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "latest"
+
+      - run: npm install
+      - name: Create pull request or publish
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          publish: npm run build

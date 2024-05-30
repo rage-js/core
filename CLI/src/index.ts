@@ -9,8 +9,18 @@ import * as inquirer from "@inquirer/prompts";
  */
 async function prompt() {
   try {
-    return await inquirer.input({
+    return await inquirer.select({
       message: "Ready to dive in?",
+      choices: [
+        {
+          name: "Yes",
+          value: "Yes",
+        },
+        {
+          name: "No",
+          value: "No",
+        },
+      ],
     });
   } catch (error: any) {
     console.log(chalk.red(`\n${error.message}`));
