@@ -1,0 +1,32 @@
+{
+  "name": "rage-js",
+  "version": "0.0.1",
+  "description": "RAGE.js is a database approach which helps you manage cloud databases in offline scenarios.",
+  "main": "index.js",
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Maghish/RAGE.git"
+  },
+  "keywords": [
+    "rage",
+    "rage-js",
+    "ragejs"
+  ],
+  "author": "Maghish",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Maghish/RAGE/issues"
+  },
+  "homepage": "https://github.com/Maghish/RAGE#readme",
+  "dependencies": {
+    "mongodb": "^6.7.0"
+  }
+}
