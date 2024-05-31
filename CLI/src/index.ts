@@ -16,6 +16,9 @@ interface promptFunctionReturnValues {
 
 import chalk from "chalk";
 import { input, select } from "@inquirer/prompts";
+import { createSpinner } from "nanospinner";
+import { promises as fs } from "fs";
+import path from "path";
 
 /**
  * Function that asks the user different set of questions and returns the given answers
@@ -239,12 +242,56 @@ async function prompt() {
 }
 
 /**
+ * Sleep function which will make the process wait for few seconds
+ * @param ms {number}
+ * @returns
+ */
+async function sleep(ms: number) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
+/**
+ * Function which checks if the given dirPath exists, if not it creates it by itself
+ * @param {promptFunctionReturnValues["dirPath"]} dirPath
+ */
+async function checkDir(dirPath: promptFunctionReturnValues["dirPath"]) {
+  try {
+    // Create the directory
+    console.log("\n");
+    const spinner = createSpinner("Finding directory...").start();
+    await sleep(7000);
+    const currentPath = process.cwd();
+    const fullPath =
+      dirPath === "." ? currentPath : path.join(currentPath, dirPath);
+
+    try {
+      await fs.access(fullPath, fs.constants.F_OK);
+      spinner.clear();
+      spinner.success({ text: "Directory found successfully." });
+    } catch (error: any) {
+      if (error.code === "ENOENT") {
+        // Directory doesn't exist
+        spinner.update({ text: `Creating directory "${fullPath}"...` });
+        await fs.mkdir(fullPath, { recursive: true }); // Create directory with parent dirs if needed
+        spinner.clear();
+        spinner.success({
+          text: `Directory "${fullPath}" created successfully.`,
+        });
+      } else {
+        console.log(chalk.red(`\nError accessing directory: ${error.message}`));
+      }
+    }
+  } catch (error) {}
+}
+
+/**
  * Initial function that runs when the file is ran
  */
 async function start() {
   const res = await prompt();
-  console.log("\n");
-  console.log(res);
+  await checkDir(res.dirPath);
 }
 
 start();
