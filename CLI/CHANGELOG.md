@@ -1,5 +1,11 @@
 # @ragejs/cli
 
+## 0.3.0
+
+### Minor Changes
+
+- CreateConfigFile function created
+
 ## 0.2.1
 
 ### Patch Changes
