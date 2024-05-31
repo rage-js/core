@@ -40,10 +40,10 @@ async function prompt() {
 
     // File setup related questions
     var projectName = await input({
-      message: "Enter the application/project name:",
+      message: "Enter the application/project name (Enter in lowercase):",
     });
     if (projectName && projectName !== "") {
-      returnValues.projectName = projectName;
+      returnValues.projectName = projectName.toLowerCase();
 
       var dirPath = await input({
         message:
@@ -273,7 +273,7 @@ async function checkDir(dirPath: promptFunctionReturnValues["dirPath"]) {
       // Find the full path
       await fs.access(fullPath, fs.constants.F_OK);
       spinner.clear();
-      spinner.success({ text: "Directory found successfully." });
+      spinner.success({ text: `Directory "${fullPath}" found successfully.` });
     } catch (error: any) {
       if (error.code === "ENOENT") {
         // If directory doesn't exist
@@ -332,7 +332,9 @@ async function createPackageFile(
     await fs.writeFile(filePath, JSON.stringify(fileContent, null, 2));
 
     spinner.clear();
-    spinner.success({ text: "Successfully created package.json file." });
+    spinner.success({
+      text: `Successfully created package.json file in "${filePath}".`,
+    });
   } catch (error: any) {
     if (error.code === "ExitPromptError") {
       console.log(chalk.red(`\nUnexpected error occurred!`));
