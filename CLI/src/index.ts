@@ -255,6 +255,7 @@ async function sleep(ms: number) {
 /**
  * Function which checks if the given dirPath exists, if not it creates it by itself
  * @param {promptFunctionReturnValues["dirPath"]} dirPath
+ * @returns {Promise<string>}
  */
 async function checkDir(dirPath: promptFunctionReturnValues["dirPath"]) {
   try {
@@ -287,6 +288,8 @@ async function checkDir(dirPath: promptFunctionReturnValues["dirPath"]) {
         process.exit(1);
       }
     }
+
+    return fullPath;
   } catch (error: any) {
     if (error.code === "ExitPromptError") {
       console.log(chalk.red(`\nUnexpected error occurred!`));
@@ -301,13 +304,58 @@ async function checkDir(dirPath: promptFunctionReturnValues["dirPath"]) {
 /**
  * Function which creates a pre-made package.json file inside the given dirPath;
  */
+async function createPackageFile(
+  fullPath: string,
+  moduleType: promptFunctionReturnValues["moduleType"],
+  projectName: promptFunctionReturnValues["projectName"],
+  mainFile: promptFunctionReturnValues["mainFile"]
+) {
+  try {
+    const spinner = createSpinner("Create package.json...").start();
+    await sleep(7000);
+
+    const filePath = path.join(fullPath, "package.json");
+    const fileContent = {
+      name: projectName,
+      version: "1.0.0",
+      description: "",
+      type: moduleType === "module" ? "module" : "commonjs",
+      main: mainFile,
+      scripts: {
+        start: `node ${mainFile}`,
+      },
+      keywords: [],
+      author: "",
+      license: "ISC",
+    };
+
+    await fs.writeFile(filePath, JSON.stringify(fileContent, null, 2));
+
+    spinner.clear();
+    spinner.success({ text: "Successfully created package.json file." });
+  } catch (error: any) {
+    if (error.code === "ExitPromptError") {
+      console.log(chalk.red(`\nUnexpected error occurred!`));
+      process.exit(1);
+    } else {
+      console.log(chalk.redBright("\nTerminating the process..."));
+      process.exit(1);
+    }
+  }
+}
 
 /**
  * Initial function that runs when the file is ran
  */
 async function start() {
   const res = await prompt();
-  await checkDir(res.dirPath);
+  const fullPath = await checkDir(res.dirPath);
+  await createPackageFile(
+    fullPath,
+    res.moduleType,
+    res.projectName,
+    res.mainFile
+  );
 }
 
 start();
