@@ -258,21 +258,24 @@ async function sleep(ms: number) {
  */
 async function checkDir(dirPath: promptFunctionReturnValues["dirPath"]) {
   try {
-    // Create the directory
     console.log("\n");
+    // Start the loading spinner
     const spinner = createSpinner("Finding directory...").start();
     await sleep(7000);
+
+    // Get full path
     const currentPath = process.cwd();
     const fullPath =
       dirPath === "." ? currentPath : path.join(currentPath, dirPath);
 
     try {
+      // Find the full path
       await fs.access(fullPath, fs.constants.F_OK);
       spinner.clear();
       spinner.success({ text: "Directory found successfully." });
     } catch (error: any) {
       if (error.code === "ENOENT") {
-        // Directory doesn't exist
+        // If directory doesn't exist
         spinner.update({ text: `Creating directory "${fullPath}"...` });
         await fs.mkdir(fullPath, { recursive: true }); // Create directory with parent dirs if needed
         spinner.clear();
