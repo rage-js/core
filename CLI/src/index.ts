@@ -281,10 +281,23 @@ async function checkDir(dirPath: promptFunctionReturnValues["dirPath"]) {
         });
       } else {
         console.log(chalk.red(`\nError accessing directory: ${error.message}`));
+        process.exit(1);
       }
     }
-  } catch (error) {}
+  } catch (error: any) {
+    if (error.code === "ExitPromptError") {
+      console.log(chalk.red(`\nUnexpected error occurred!`));
+      process.exit(1);
+    } else {
+      console.log(chalk.redBright("\nTerminating the process..."));
+      process.exit(1);
+    }
+  }
 }
+
+/**
+ * Function which creates a pre-made package.json file inside the given dirPath;
+ */
 
 /**
  * Initial function that runs when the file is ran
