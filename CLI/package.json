@@ -1,6 +1,6 @@
 {
   "name": "@ragejs/cli",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "RAGE Cli helps you build nodejs applications with support RAGE primarly.",
   "main": "index.js",
   "devDependencies": {
@@ -34,5 +34,8 @@
     "chalk": "^4.0.0",
     "mongodb": "^6.7.0",
     "nanospinner": "^1.1.0"
+  },
+  "bin": {
+    "rage": "./dist/index.js"
   }
 }
