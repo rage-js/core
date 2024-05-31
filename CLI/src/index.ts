@@ -302,7 +302,7 @@ async function checkDir(dirPath: promptFunctionReturnValues["dirPath"]) {
 }
 
 /**
- * Function which creates a pre-made package.json file inside the given dirPath;
+ * Function which creates a pre-made package.json file inside the given dirPath
  */
 async function createPackageFile(
   fullPath: string,
@@ -347,6 +347,51 @@ async function createPackageFile(
 }
 
 /**
+ * Function which creates a rage.config.json file inside the given dirPath
+ * @param {string} fullPath
+ * @param {promptFunctionReturnValues} configSettings
+ */
+async function createConfigFile(
+  fullPath: string,
+  configSettings: promptFunctionReturnValues
+) {
+  try {
+    const spinner = createSpinner("Create rage.config.json...").start();
+    await sleep(7000);
+
+    const filePath = path.join(fullPath, "rage.config.json");
+    const fileContent = {
+      method: configSettings.method,
+      methodSpecificSettings: {
+        interval: configSettings.interval,
+      },
+      databaseType: configSettings.databaseType,
+      databaseSpecificSettings: {
+        secretKey: configSettings.databaseSecret,
+        dbs: configSettings.mongodbDatabasedbs,
+        excludeCollections: configSettings.mongodbDatabaseExcludeCollections,
+      },
+      outDir: configSettings.outDir,
+    };
+
+    await fs.writeFile(filePath, JSON.stringify(fileContent, null, 2));
+
+    spinner.clear();
+    spinner.success({
+      text: `Successfully created rage.config.json file in "${filePath}"`,
+    });
+  } catch (error: any) {
+    if (error.code === "ExitPromptError") {
+      console.log(chalk.red(`\nUnexpected error occurred!`));
+      process.exit(1);
+    } else {
+      console.log(chalk.redBright("\nTerminating the process..."));
+      process.exit(1);
+    }
+  }
+}
+
+/**
  * Initial function that runs when the file is ran
  */
 async function start() {
@@ -358,6 +403,7 @@ async function start() {
     res.projectName,
     res.mainFile
   );
+  await createConfigFile(fullPath, res);
 }
 
 start();

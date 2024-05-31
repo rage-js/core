@@ -130,7 +130,4 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-complied
-testing
-testing2
-OLD
+rage.config.json
