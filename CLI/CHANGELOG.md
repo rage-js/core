@@ -1,5 +1,11 @@
 # @ragejs/cli
 
+## 1.0.0
+
+### Major Changes
+
+- Now people can answer the questions provided by the CLI, and it shall create all files needed for testing RAGE.
+
 ## 0.3.0
 
 ### Minor Changes
