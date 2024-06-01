@@ -311,7 +311,7 @@ async function createPackageFile(
   mainFile: promptFunctionReturnValues["mainFile"]
 ) {
   try {
-    const spinner = createSpinner("Create package.json...").start();
+    const spinner = createSpinner("Creating package.json...").start();
     await sleep(7000);
 
     const filePath = path.join(fullPath, "package.json");
@@ -333,7 +333,7 @@ async function createPackageFile(
 
     spinner.clear();
     spinner.success({
-      text: `Successfully created package.json file in "${filePath}".`,
+      text: `Successfully created package.json.`,
     });
   } catch (error: any) {
     if (error.code === "ExitPromptError") {
@@ -356,7 +356,7 @@ async function createConfigFile(
   configSettings: promptFunctionReturnValues
 ) {
   try {
-    const spinner = createSpinner("Create rage.config.json...").start();
+    const spinner = createSpinner("Creating rage.config.json...").start();
     await sleep(7000);
 
     const filePath = path.join(fullPath, "rage.config.json");
@@ -378,7 +378,52 @@ async function createConfigFile(
 
     spinner.clear();
     spinner.success({
-      text: `Successfully created rage.config.json file in "${filePath}"`,
+      text: `Successfully created rage.config.json`,
+    });
+  } catch (error: any) {
+    if (error.code === "ExitPromptError") {
+      console.log(chalk.red(`\nUnexpected error occurred!`));
+      process.exit(1);
+    } else {
+      console.log(chalk.redBright("\nTerminating the process..."));
+      process.exit(1);
+    }
+  }
+}
+
+/**
+ * Function which creates the main file inside the given dirPath
+ * @param {string} fullPath
+ * @param {string} mainFile
+ * @param {promptFunctionReturnValues["moduleType"]} moduleType
+ */
+async function createMainFile(
+  fullPath: string,
+  mainFile: string,
+  moduleType: promptFunctionReturnValues["moduleType"]
+) {
+  try {
+    const spinner = createSpinner("Creating main file...").start();
+    await sleep(7000);
+
+    const filePath = path.join(fullPath, mainFile);
+    let fileContent = ``;
+
+    if (moduleType === "commonjs") {
+      fileContent = `
+// This part is still on development 💢
+`;
+    } else {
+      fileContent = `
+// This part is still on development 💢
+`;
+    }
+
+    await fs.writeFile(filePath, fileContent);
+
+    spinner.clear();
+    spinner.success({
+      text: `Successfully created ${mainFile}`,
     });
   } catch (error: any) {
     if (error.code === "ExitPromptError") {
@@ -404,6 +449,7 @@ async function start() {
     res.mainFile
   );
   await createConfigFile(fullPath, res);
+  await createMainFile(fullPath, res.mainFile, res.moduleType);
 }
 
 start();
