@@ -1,0 +1,32 @@
+{
+  "name": "@rage-js/core",
+  "version": "0.0.1",
+  "description": "Core module for RAGE",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rage-js/core.git"
+  },
+  "keywords": [
+    "rage-core",
+    "rage",
+    "ragejs",
+    "rage-js"
+  ],
+  "author": "Maghish",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rage-js/core/issues"
+  },
+  "homepage": "https://github.com/rage-js/core#readme",
+  "devDependencies": {
+    "@changesets/cli": "^2.27.5",
+    "@types/node": "^20.13.0",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.5"
+  }
+}
