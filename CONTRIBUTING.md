@@ -6,6 +6,12 @@
 
 # How to setup this repository locally?
 
+1. First off, fork this repository.
+2. Then clone the forked repository into your local system.
+3. Run `npm install` to install the dependencies.
+
+   _That's pretty much it!_
+
 # How to contribute to this repository?
 
 ## Key tips and warnings
