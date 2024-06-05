@@ -14,6 +14,23 @@
 
 # How to contribute to this repository?
 
+1. If you have any suggestions on something, you can just create an issue, or if you find any suitable issue that you feel you can fix and work on it.
+2. Just open the issue you are going to work on, and it on the right side bottom, you will find a section named **"Development"** and under that you can see a text saying to create a branch,
+
+   ![CreateBranch](./img_for_docs/CreateBranch.png)
+
+3. Click on the **"Create a branch"** and it will open a pop-up, select the forked repository you created under the "**Repository destination**" and click **"Create branch"** to create the branch inside the repository.
+
+4. Then go to your local system terminal and checkout to the branch
+
+```bash
+git checkout <branch-name>
+```
+
+5. Now you can work freely on that branch! Once you finished your work, just commit the changes and push it back to your forked repository and make a PR _(Pull Request)_ from there to the [main repository](https://github.com/rage-js/core).
+
+   _Admins will soon review your code and address problems if any and then merge it to the main branch. We request you to be patient, admins may take some more time to reply but they eventually will._
+
 ## Key tips and warnings
 
 <br>
