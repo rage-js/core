@@ -13,16 +13,19 @@ class PushAfterInterval {
   secretKey?: string;
   outDir: string;
   mongodbClient?: any;
+  logger: boolean;
 
   constructor(
     interval: number,
     databaseType: "MongoDB",
     outDir: string,
+    logger: boolean,
     dbs?: string[],
     excludeCollections?: string[],
     secretKey?: string
   ) {
     this.active = false;
+    this.logger = logger;
     this.interval = interval;
     this.databaseType = databaseType;
     this.outDir = outDir;
@@ -33,10 +36,12 @@ class PushAfterInterval {
         try {
           this.mongodbClient = new MongoClient(secretKey);
           this.mongodbClient.connect();
-          console.log(formatLog("Connected to MongoDB Client", "config"));
+          formatLog("Connected to MongoDB Client", "config", this.logger);
         } catch (error) {
-          console.log(
-            formatLog("Unable to connect to MongoDB Client", "error")
+          formatLog(
+            "Unable to connect to MongoDB Client",
+            "error",
+            this.logger
           );
         }
       }
@@ -48,7 +53,7 @@ class PushAfterInterval {
       this.active = true;
       while (this.active) {}
     } catch (error: any) {
-      console.log(formatLog("Unexpected error occurred!", "error"));
+      formatLog("Unexpected error occurred!", "error", this.logger);
     }
   }
   async stop() {}

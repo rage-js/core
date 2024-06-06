@@ -24,14 +24,16 @@ class App {
   private active: boolean;
   private applicationSetup: boolean;
   private methodInstance: PushAfterInterval | undefined;
+  private logger: boolean;
 
   /**
    * @param {string} configFilePath The path to the rage config file
    */
-  constructor(configFilePath: string) {
+  constructor(configFilePath: string, logger: boolean = false) {
     this.configFilePath = configFilePath;
     this.applicationSetup = false;
     this.active = false;
+    this.logger = logger;
   }
 
   /**
@@ -54,6 +56,7 @@ class App {
         this.interval!,
         this.databaseType,
         this.outDir,
+        this.logger,
         this.dbs,
         this.excludeCollections,
         this.secretKey
@@ -77,19 +80,18 @@ class App {
         this.active = true;
         await this.methodInstance!.start();
       } else {
-        console.log(
-          formatLog(
-            `${chalk.red(
-              "The application is not setup yet! Please use"
-            )} ${chalk.bold.green("setup()")} ${chalk.red(
-              "first in order to configure the application."
-            )}`,
-            "error"
-          )
+        formatLog(
+          `${chalk.red(
+            "The application is not setup yet! Please use"
+          )} ${chalk.bold.green("setup()")} ${chalk.red(
+            "first in order to configure the application."
+          )}`,
+          "error",
+          this.logger
         );
       }
     } catch (error: any) {
-      console.log(formatLog("Unexpected error occurred!", "error"));
+      formatLog("Unexpected error occurred!", "error", this.logger);
     }
   }
 }
