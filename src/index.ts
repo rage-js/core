@@ -1,6 +1,7 @@
 import readConfigFile from "./functions/readConfigFile";
 import { configurationType } from "./main";
 import chalk from "chalk";
+import PushAfterInterval from "./methods/PushAfterInterval";
 
 /**
  * The core application
@@ -22,6 +23,7 @@ class App {
 
   private active: boolean;
   private applicationSetup: boolean;
+  private methodInstance: PushAfterInterval | undefined;
 
   /**
    * @param {string} configFilePath The path to the rage config file
@@ -48,6 +50,15 @@ class App {
       this.secretKey = data.databaseSpecificSettings.secretKey;
       this.outDir = data.outDir;
 
+      this.methodInstance = new PushAfterInterval(
+        this.interval!,
+        this.databaseType,
+        this.outDir,
+        this.dbs,
+        this.excludeCollections,
+        this.secretKey
+      );
+
       this.applicationSetup = true;
 
       return true;
@@ -64,6 +75,7 @@ class App {
     try {
       if (this.applicationSetup) {
         this.active = true;
+        await this.methodInstance!.start();
       } else {
         console.log(
           chalk.red("[!] The application is not setup yet! Please use"),
