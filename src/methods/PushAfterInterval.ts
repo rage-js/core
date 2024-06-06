@@ -1,6 +1,6 @@
 import { MongoClient } from "mongodb";
 import chalk from "chalk";
-import getCurrentTime from "../functions/getCurrentTime";
+import formatLog from "../functions/formatLog";
 
 /**
  * The class which simulates the Push After Interval method
@@ -33,7 +33,7 @@ class PushAfterInterval {
       if (secretKey) {
         this.mongodbClient = new MongoClient(secretKey);
         this.mongodbClient.connect();
-        console.log("Connected to MongoDB");
+        console.log(formatLog("Connected to MongoDB Client", "config"));
       }
     }
   }
