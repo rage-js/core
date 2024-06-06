@@ -9,8 +9,11 @@
 1. First off, fork this repository.
 2. Then clone the forked repository into your local system.
 3. Run `npm install` to install the dependencies.
-
-   _That's pretty much it!_
+4. Install the RAGE cli using `npm install @rage-js/cli`.
+5. Then run `npx rage` to run the cli.
+6. Answer the questions provided by the cli, you can give dummy text as answer for questions which ask the MongoDB secret key.
+7. Redirect to the directory created by the cli, and you can see the main file with a comment saying it's still on development, You can ignore and remove that comment. That directory is your test directory that you can use to test the rage package.
+8. Then redirect to the forked directory and run `npm link`, now redirect back to the test directory and run `npm link @rage-js/core`.
 
 # How to contribute to this repository?
 
@@ -37,6 +40,7 @@ git checkout <branch-name>
 2. Do not include unnecessary code like `console.log` when committing the changes
 3. Please double check if you left any mistaken code you wrote, before creating the Pull Request.
 
+<br>
 <br>
 
 <div align="center" >
