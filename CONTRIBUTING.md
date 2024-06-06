@@ -15,6 +15,8 @@
 7. Redirect to the directory created by the cli, and you can see the main file with a comment saying it's still on development, You can ignore and remove that comment. That directory is your test directory that you can use to test the rage package.
 8. Then redirect to the forked directory and run `npm link`, now redirect back to the test directory and run `npm link @rage-js/core`.
 
+_Now you can work on the package and also test it yourself in the test directory you built using the cli._
+
 # How to contribute to this repository?
 
 1. If you have any suggestions on something, you can just create an issue, or if you find any suitable issue that you feel you can fix and work on it.
