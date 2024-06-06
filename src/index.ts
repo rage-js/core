@@ -1,7 +1,7 @@
 import readConfigFile from "./functions/readConfigFile";
-import { configurationType } from "./main";
 import chalk from "chalk";
 import PushAfterInterval from "./methods/PushAfterInterval";
+import formatLog from "./functions/formatLog";
 
 /**
  * The core application
@@ -78,13 +78,18 @@ class App {
         await this.methodInstance!.start();
       } else {
         console.log(
-          chalk.red("[!] The application is not setup yet! Please use"),
-          chalk.bold.green("setup()"),
-          chalk.red("first in order to configure the application.")
+          formatLog(
+            `${chalk.red(
+              "The application is not setup yet! Please use"
+            )} ${chalk.bold.green("setup()")} ${chalk.red(
+              "first in order to configure the application."
+            )}`,
+            "error"
+          )
         );
       }
     } catch (error: any) {
-      console.log(chalk.red("[!] Unexpected error occurred!"));
+      console.log(formatLog("Unexpected error occurred!", "error"));
     }
   }
 }

@@ -1,5 +1,4 @@
 import { MongoClient } from "mongodb";
-import chalk from "chalk";
 import formatLog from "../functions/formatLog";
 
 /**
@@ -48,7 +47,9 @@ class PushAfterInterval {
     try {
       this.active = true;
       while (this.active) {}
-    } catch (error: any) {}
+    } catch (error: any) {
+      console.log(formatLog("Unexpected error occurred!", "error"));
+    }
   }
   async stop() {}
 
