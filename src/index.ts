@@ -6,22 +6,22 @@ import chalk from "chalk";
  * The core application
  */
 class App {
-  configFilePath: string;
+  private configFilePath: string;
 
   // @ts-ignore
-  method: "PAI";
+  private method: "PAI";
   // @ts-ignore
-  databaseType: "MongoDB";
+  private databaseType: "MongoDB";
   // @ts-ignore
-  outDir: string;
+  private outDir: string;
 
-  interval?: number;
-  secretKey?: string;
-  dbs?: string[];
-  excludeCollections?: string[];
+  private interval?: number;
+  private secretKey?: string;
+  private dbs?: string[];
+  private excludeCollections?: string[];
 
-  active: boolean;
-  applicationSetup: boolean;
+  private active: boolean;
+  private applicationSetup: boolean;
 
   /**
    * @param {string} configFilePath The path to the rage config file
