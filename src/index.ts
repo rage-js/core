@@ -94,6 +94,19 @@ class App {
       formatLog("Unexpected error occurred!", "error", this.logger);
     }
   }
+
+  /**
+   * The stop function which terminates this application instance and also the method instance
+   */
+  async stop() {
+    try {
+      this.active = false;
+      await this.methodInstance?.stop();
+      formatLog("Terminating the application instance.", "error", this.logger);
+    } catch (error: any) {
+      formatLog("Unexpected error occurred!", "error", this.logger);
+    }
+  }
 }
 
 export { App };

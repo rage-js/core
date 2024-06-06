@@ -51,12 +51,22 @@ class PushAfterInterval {
   async start() {
     try {
       this.active = true;
-      while (this.active) {}
+      while (this.active) {
+        console.log("Looping..");
+        await new Promise((resolve) => setTimeout(resolve, this.interval));
+      }
     } catch (error: any) {
       formatLog("Unexpected error occurred!", "error", this.logger);
     }
   }
-  async stop() {}
+  async stop() {
+    try {
+      this.active = false;
+      formatLog("Terminating the method instance.", "error", this.logger);
+    } catch (error: any) {
+      formatLog("Unexpected error occurred!", "error", this.logger);
+    }
+  }
 
   // Start the loop
   // Pull stuff on start
