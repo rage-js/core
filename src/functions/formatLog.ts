@@ -30,7 +30,9 @@ function formatLog(
 
     return `${emoji} ${chalk.bold(`[${getCurrentTime()}]`)} ${message}`;
   } catch (error: any) {
-    console.log(chalk.red("\n Unexpected error occurred!"));
+    console.log(
+      `🛑 ${chalk.bold(`[${getCurrentTime()}]`)} Unexpected error occurred!`
+    );
   }
 }
 

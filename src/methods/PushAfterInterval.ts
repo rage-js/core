@@ -31,9 +31,15 @@ class PushAfterInterval {
       this.dbs = dbs;
       this.excludeCollections = excludeCollections;
       if (secretKey) {
-        this.mongodbClient = new MongoClient(secretKey);
-        this.mongodbClient.connect();
-        console.log(formatLog("Connected to MongoDB Client", "config"));
+        try {
+          this.mongodbClient = new MongoClient(secretKey);
+          this.mongodbClient.connect();
+          console.log(formatLog("Connected to MongoDB Client", "config"));
+        } catch (error) {
+          console.log(
+            formatLog("Unable to connect to MongoDB Client", "error")
+          );
+        }
       }
     }
   }
