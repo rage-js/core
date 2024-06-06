@@ -64,14 +64,6 @@ class App {
     try {
       if (this.applicationSetup) {
         this.active = true;
-        // console.log(this.configFilePath);
-        // console.log(this.method);
-        // console.log(this.interval);
-        // console.log(this.databaseType);
-        // console.log(this.dbs);
-        // console.log(this.excludeCollections);
-        // console.log(this.secretKey);
-        // console.log(this.outDir);
       } else {
         console.log(
           chalk.red("[!] The application is not setup yet! Please use"),

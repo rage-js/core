@@ -33,11 +33,9 @@ git checkout <branch-name>
 
 ## Key tips and warnings
 
-> [!IMPORTANT]
->
-> - Whenever you create a function or a class, be sure to always document it using JSDoc! and also always wrap the functions inside try-catch block to prevent errors from breaking the whole code.
-> - Do not include unnecessary code like `console.log` when commiting the changes.
-> - Please double check if you left mistaken any code you wrote, before creating the Pull Request.
+1. Whenever you create a function or a class, be sure to always document it using JSDoc! and also always wrap the function's code inside a try-catch block to prevent errors from breaking the code.
+2. Do not include unnecessary code like `console.log` when committing the changes
+3. Please double check if you left any mistaken code you wrote, before creating the Pull Request.
 
 <br>
 
