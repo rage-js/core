@@ -37,7 +37,6 @@ async function writeJsonFiles(
 
     return finalFilePath;
   } catch (error) {
-    console.log(error);
     formatLog("Unexpected error occurred!", "error", logger);
 
     return false;

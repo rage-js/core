@@ -45,7 +45,6 @@ async function pullDatabase(
       }
     });
   } catch (error: any) {
-    console.log("What??");
     formatLog("Unexpected error occurred!", "error", logger);
   }
 }
