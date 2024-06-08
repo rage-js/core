@@ -53,10 +53,12 @@ class PushAfterInterval {
     try {
       this.active = true;
 
-      const convertedData = await pullDatabase(
+      await pullDatabase(
         this.mongodbClient,
         this.dbs!,
-        this.excludeCollections!
+        this.excludeCollections!,
+        this.outDir,
+        this.logger
       );
 
       while (this.active) {
