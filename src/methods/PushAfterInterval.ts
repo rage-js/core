@@ -1,6 +1,7 @@
 import { MongoClient } from "mongodb";
 import formatLog from "../functions/formatLog";
 import pullDatabase from "../functions/MongoDB/pullDatabase";
+import readJsonCollections from "../functions/MongoDB/readJsonCollections";
 
 /**
  * The class which simulates the Push After Interval method
@@ -62,7 +63,13 @@ class PushAfterInterval {
       );
 
       while (this.active) {
-        // Read and push
+        const data = await readJsonCollections(
+          this.mongodbClient,
+          this.dbs!,
+          this.excludeCollections!,
+          this.outDir
+        );
+        console.log(data);
         await new Promise((resolve) => setTimeout(resolve, this.interval));
       }
     } catch (error: any) {
