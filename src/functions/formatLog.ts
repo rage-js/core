@@ -2,7 +2,7 @@ import chalk from "chalk";
 import getCurrentTime from "./getCurrentTime";
 
 /**
- * Formats the given string into a logger string
+ * Formats the given message and logs it in the console.
  * @param {string} message
  */
 function formatLog(

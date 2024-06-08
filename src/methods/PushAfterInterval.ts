@@ -1,5 +1,6 @@
 import { MongoClient } from "mongodb";
 import formatLog from "../functions/formatLog";
+import pullDatabase from "../functions/MongoDB/pullDatabase";
 
 /**
  * The class which simulates the Push After Interval method
@@ -30,8 +31,8 @@ class PushAfterInterval {
     this.databaseType = databaseType;
     this.outDir = outDir;
     if (databaseType === "MongoDB") {
-      this.dbs = dbs;
-      this.excludeCollections = excludeCollections;
+      this.dbs = dbs ? dbs : [];
+      this.excludeCollections = excludeCollections ? excludeCollections : [];
       if (secretKey) {
         try {
           this.mongodbClient = new MongoClient(secretKey);
@@ -51,8 +52,15 @@ class PushAfterInterval {
   async start() {
     try {
       this.active = true;
+
+      const convertedData = await pullDatabase(
+        this.mongodbClient,
+        this.dbs!,
+        this.excludeCollections!
+      );
+
       while (this.active) {
-        console.log("Looping..");
+        // Read and push
         await new Promise((resolve) => setTimeout(resolve, this.interval));
       }
     } catch (error: any) {
@@ -62,17 +70,12 @@ class PushAfterInterval {
   async stop() {
     try {
       this.active = false;
+      // Push one last time
       formatLog("Terminating the method instance.", "error", this.logger);
     } catch (error: any) {
       formatLog("Unexpected error occurred!", "error", this.logger);
     }
   }
-
-  // Start the loop
-  // Pull stuff on start
-  // Push stuff later
-  // Push on end and delete json files
-  // Force stop the loop
 }
 
 export default PushAfterInterval;
