@@ -10,7 +10,7 @@ import * as fs from "fs/promises";
  * @param {excludeCollections} excludeCollections
  * @param {string} outDir
  */
-async function readJsonCollections(
+async function readAndPushCollections(
   mongodbClient: MongoClient,
   dbs: string[],
   excludeCollections: string[],
@@ -19,26 +19,9 @@ async function readJsonCollections(
   try {
     const actualPath = path.join(process.cwd(), outDir);
 
-    let data: { [key: string]: any } = {};
-    /*
-      data: {
-        database1: {
-          collection1: [...]
-          collection2: [...]
-          collection3: [...]
-        },
-        database2: {
-          collection1: [...]
-          collection2: [...]
-        }
-      }
-    */
-
     dbs.forEach(async (dbName) => {
       const db = mongodbClient.db(dbName);
       const collections = await db.listCollections().toArray();
-
-      data[dbName] = {};
 
       for (const collection of collections) {
         const collectionName = collection.name;
@@ -52,19 +35,19 @@ async function readJsonCollections(
           );
 
           let content = await fs.readFile(fullPath, "utf-8");
-          content = JSON.parse(content);
+          console.log(content);
 
-          data[dbName][collectionName] = content;
+          // Empty the collection
+          // const c = db.collection(collectionName);
+          // await c.deleteMany({});
 
           continue;
         }
       }
     });
-
-    return data;
   } catch (error: any) {
     formatLog("Unexpected error occurred!", "error", true);
   }
 }
 
-export default readJsonCollections;
+export default readAndPushCollections;
