@@ -4,6 +4,8 @@ import getCurrentTime from "./getCurrentTime";
 /**
  * Formats the given message and logs it in the console.
  * @param {string} message
+ * @param {"config" | "pull" | "push" | "warning" | "error"} type
+ * @param {boolean} logger
  */
 function formatLog(
   message: string,

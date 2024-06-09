@@ -5,6 +5,10 @@ import * as fs from "fs/promises";
 
 /**
  * Reads the local json file to get the data and convert it into MongoDB feeable objects
+ * @param {MongoClient} mongodbClient
+ * @param {dbs} dbs
+ * @param {excludeCollections} excludeCollections
+ * @param {string} outDir
  */
 async function readJsonCollections(
   mongodbClient: MongoClient,

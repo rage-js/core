@@ -5,6 +5,11 @@ import formatLog from "./formatLog";
 
 /**
  * Writes JSON files with the given data in the given directory
+ * @param {string} dirPath
+ * @param {string} fileName
+ * @param {string} databaseName
+ * @param {any} dataToWrite
+ * @param [logger=false]
  */
 async function writeJsonFiles(
   dirPath: string,

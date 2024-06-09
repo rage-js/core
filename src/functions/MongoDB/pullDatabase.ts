@@ -7,6 +7,7 @@ import writeJsonFiles from "../writeJsonFiles";
  * @param {MongoClient} mongodbClient
  * @param {string[]} dbs
  * @param {string[]} excludeCollections
+ * @param [logger=false]
  */
 async function pullDatabase(
   mongodbClient: MongoClient,
