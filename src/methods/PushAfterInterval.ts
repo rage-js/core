@@ -69,6 +69,7 @@ class PushAfterInterval {
           this.excludeCollections!,
           this.outDir
         );
+        console.log(data);
         await new Promise((resolve) => setTimeout(resolve, this.interval));
       }
     } catch (error: any) {

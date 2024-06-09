@@ -19,9 +19,26 @@ async function readJsonCollections(
   try {
     const actualPath = path.join(process.cwd(), outDir);
 
+    let data: { [key: string]: any } = {};
+    /*
+      data: {
+        database1: {
+          collection1: [...]
+          collection2: [...]
+          collection3: [...]
+        },
+        database2: {
+          collection1: [...]
+          collection2: [...]
+        }
+      }
+    */
+
     dbs.forEach(async (dbName) => {
       const db = mongodbClient.db(dbName);
       const collections = await db.listCollections().toArray();
+
+      data[dbName] = {};
 
       for (const collection of collections) {
         const collectionName = collection.name;
@@ -34,13 +51,17 @@ async function readJsonCollections(
             `/${collectionName}.json`
           );
 
-          let data = await fs.readFile(fullPath, "utf-8");
-          data = JSON.parse(data);
+          let content = await fs.readFile(fullPath, "utf-8");
+          content = JSON.parse(content);
 
-          return data;
+          data[dbName][collectionName] = content;
+
+          continue;
         }
       }
     });
+
+    return data;
   } catch (error: any) {
     formatLog("Unexpected error occurred!", "error", true);
   }
