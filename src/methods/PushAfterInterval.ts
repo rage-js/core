@@ -67,7 +67,8 @@ class PushAfterInterval {
           this.mongodbClient,
           this.dbs!,
           this.excludeCollections!,
-          this.outDir
+          this.outDir,
+          this.logger
         );
         await new Promise((resolve) => setTimeout(resolve, this.interval));
       }

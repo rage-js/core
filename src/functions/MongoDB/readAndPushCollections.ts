@@ -14,7 +14,8 @@ async function readAndPushCollections(
   mongodbClient: MongoClient,
   dbs: string[],
   excludeCollections: string[],
-  outDir: string
+  outDir: string,
+  logger: boolean = false
 ) {
   try {
     const actualPath = path.join(process.cwd(), outDir);
@@ -34,12 +35,24 @@ async function readAndPushCollections(
             `/${collectionName}.json`
           );
 
-          let content = await fs.readFile(fullPath, "utf-8");
-          console.log(content);
+          let content: any = await fs.readFile(fullPath, "utf-8");
+          if (content === "[]") {
+            content = [];
+          } else {
+            content = JSON.parse(content);
+          }
 
           // Empty the collection
-          // const c = db.collection(collectionName);
-          // await c.deleteMany({});
+          const c = db.collection(collectionName);
+          await c.deleteMany({});
+
+          content.forEach(async (document: any) => {
+            c.insertOne(document).catch((error: any) => {
+              formatLog(`Unexpected error occurred!`, "error", logger);
+            });
+          });
+
+          formatLog(`Pushing ${dbName}/${collectionName}.json`, "push", logger);
 
           continue;
         }
