@@ -1,6 +1,6 @@
 {
   "name": "@rage-js/core",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Core module for RAGE",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
