@@ -62,14 +62,19 @@ class PushAfterInterval {
         this.logger
       );
 
+      let firstIteration = true;
       while (this.active) {
-        await readAndPushCollections(
-          this.mongodbClient,
-          this.dbs!,
-          this.excludeCollections!,
-          this.outDir,
-          this.logger
-        );
+        if (!firstIteration) {
+          await readAndPushCollections(
+            this.mongodbClient,
+            this.dbs!,
+            this.excludeCollections!,
+            this.outDir,
+            this.logger
+          );
+        } else {
+          firstIteration = false;
+        }
         await new Promise((resolve) => setTimeout(resolve, this.interval));
       }
     } catch (error: any) {
