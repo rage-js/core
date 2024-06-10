@@ -1,5 +1,11 @@
 # @rage-js/core
 
+## 1.0.2
+
+### Patch Changes
+
+- Fixed method loop to skip the first iteration
+
 ## 1.0.1
 
 ### Patch Changes
