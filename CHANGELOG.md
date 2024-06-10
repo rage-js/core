@@ -1,5 +1,11 @@
 # @rage-js/core
 
+## 1.1.0
+
+### Minor Changes
+
+- Push on exit is now functional
+
 ## 1.0.2
 
 ### Patch Changes

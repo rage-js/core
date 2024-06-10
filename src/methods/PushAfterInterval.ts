@@ -91,8 +91,22 @@ class PushAfterInterval {
         );
       } else {
         this.active = false;
-        // Push one last time
-        formatLog("Terminating the method instance.", "error", this.logger);
+
+        await readAndPushCollections(
+          this.mongodbClient,
+          this.dbs!,
+          this.excludeCollections!,
+          this.outDir,
+          this.logger,
+          true // Set this to final push mode
+        );
+
+        return new Promise((resolve) =>
+          setTimeout(() => {
+            formatLog("Terminating the method instance.", "error", this.logger);
+            resolve(true);
+          }, 3500)
+        );
       }
     } catch (error: any) {
       formatLog("Unexpected error occurred!", "error", this.logger);

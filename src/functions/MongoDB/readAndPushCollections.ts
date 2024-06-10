@@ -2,6 +2,7 @@ import { MongoClient } from "mongodb";
 import formatLog from "../formatLog";
 import path from "path";
 import * as fs from "fs/promises";
+import chalk from "chalk";
 
 /**
  * Reads the local json file to get the data and convert it into MongoDB feeable objects
@@ -15,7 +16,8 @@ async function readAndPushCollections(
   dbs: string[],
   excludeCollections: string[],
   outDir: string,
-  logger: boolean = false
+  logger: boolean = false,
+  finalPush: boolean = false
 ) {
   try {
     const actualPath = path.join(process.cwd(), outDir);
@@ -35,31 +37,59 @@ async function readAndPushCollections(
             `/${collectionName}.json`
           );
 
-          let content: any = await fs.readFile(fullPath, "utf-8");
-          if (content === "[]") {
-            content = [];
-          } else {
-            content = JSON.parse(content);
-          }
+          let content: any;
 
-          // Empty the collection
-          const c = db.collection(collectionName);
-          await c.deleteMany({});
+          try {
+            content = await fs.readFile(fullPath, "utf-8");
+            if (content === "[]") {
+              content = [];
+            } else {
+              content = JSON.parse(content);
+            }
 
-          content.forEach(async (document: any) => {
-            c.insertOne(document).catch((error: any) => {
-              formatLog(`Unexpected error occurred!`, "error", logger);
+            // Empty the collection
+            const c = db.collection(collectionName);
+            await c.deleteMany({});
+
+            content.forEach(async (document: any) => {
+              c.insertOne(document).catch((error: any) => {
+                formatLog(`Unexpected error occurred!`, "error", logger);
+              });
             });
-          });
 
-          formatLog(`Pushing ${dbName}/${collectionName}.json`, "push", logger);
+            if (!finalPush) {
+              formatLog(
+                `Pushing ${dbName}/${collectionName}.json`,
+                "push",
+                logger
+              );
+            } else {
+              formatLog(
+                `${chalk.red(
+                  "(FINAL)"
+                )} Pushing ${dbName}/${collectionName}.json`,
+                "push",
+                logger
+              );
+            }
 
-          continue;
+            continue;
+          } catch (error: any) {
+            formatLog(
+              `Error while trying read ${fullPath}, maybe the path doesn't exist.`,
+              "error",
+              logger
+            );
+          }
         }
       }
     });
+
+    return;
   } catch (error: any) {
     formatLog("Unexpected error occurred!", "error", true);
+
+    return;
   }
 }
 
