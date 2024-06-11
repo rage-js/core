@@ -8,6 +8,8 @@ _Read the full documentation about the CLI through this link: **https://github.c
 
 - [Installation](#installation)
 - [How to use it?](#how-to-use-it)
+  - [Setup](#setup)
+  - [How to use the core module manually?](#how-to-use-the-core-module-manually)
 
 # Installation
 
