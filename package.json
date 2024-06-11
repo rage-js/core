@@ -1,7 +1,7 @@
 {
   "name": "@rage-js/core",
   "version": "1.1.0",
-  "description": "Core module for RAGE",
+  "description": "Core module for RAGE which provides the functionality for RAGE methods.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "scripts": {
