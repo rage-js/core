@@ -17,6 +17,15 @@ class PushAfterInterval {
   mongodbClient?: any;
   logger: boolean;
 
+  /**
+   * @param {number} interval The interval value for the loop
+   * @param {"MongoDB"} databaseType The database type
+   * @param {string} outDir The directory where the local database gets stored in
+   * @param {boolean} logger A toggle for logger
+   * @param {string[]} dbs Whitelisted databases inside the cluster
+   * @param {string[]} excludeCollections Blacklisted collections in databases inside the cluster itself
+   * @param {string} secretKey The MongoDB URI secret to access the cluster
+   */
   constructor(
     interval: number,
     databaseType: "MongoDB",
@@ -50,6 +59,9 @@ class PushAfterInterval {
     }
   }
 
+  /**
+   * The start function which starts this method instance
+   */
   async start() {
     try {
       this.active = true;
@@ -81,6 +93,11 @@ class PushAfterInterval {
       formatLog("Unexpected error occurred!", "error", this.logger);
     }
   }
+
+  /**
+   * The stop function which is called when the method instance should be terminated
+   * @returns {Promise<any> | undefined}
+   */
   async stop() {
     try {
       if (this.active === false) {
