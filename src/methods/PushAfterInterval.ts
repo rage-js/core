@@ -2,6 +2,7 @@ import { MongoClient } from "mongodb";
 import formatLog from "../functions/formatLog";
 import pullDatabase from "../functions/MongoDB/pullDatabase";
 import readAndPushCollections from "../functions/MongoDB/readAndPushCollections";
+import { parentPort, workerData } from "worker_threads";
 
 /**
  * The class which simulates the Push After Interval method
@@ -17,15 +18,17 @@ class PushAfterInterval {
   mongodbClient?: any;
   logger: boolean;
 
-  constructor(
-    interval: number,
-    databaseType: "MongoDB",
-    outDir: string,
-    logger: boolean,
-    dbs?: string[],
-    excludeCollections?: string[],
-    secretKey?: string
-  ) {
+  constructor() {
+    const {
+      logger,
+      interval,
+      databaseType,
+      outDir,
+      dbs,
+      excludeCollections,
+      secretKey,
+    } = workerData;
+
     this.active = false;
     this.logger = logger;
     this.interval = interval;
@@ -48,6 +51,8 @@ class PushAfterInterval {
         }
       }
     }
+
+    this.start();
   }
 
   async start() {
@@ -114,4 +119,4 @@ class PushAfterInterval {
   }
 }
 
-export default PushAfterInterval;
+new PushAfterInterval();

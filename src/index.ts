@@ -1,13 +1,15 @@
 import readConfigFile from "./functions/readConfigFile";
 import chalk from "chalk";
-import PushAfterInterval from "./methods/PushAfterInterval";
 import formatLog from "./functions/formatLog";
+import { Worker } from "worker_threads";
+import path from "path";
 
 /**
  * The core application
  */
 class App {
   private configFilePath: string;
+  private methodInstance: Worker | null = null;
 
   // @ts-ignore
   private method: "PAI";
@@ -21,9 +23,7 @@ class App {
   private dbs?: string[];
   private excludeCollections?: string[];
 
-  private active: boolean;
   private applicationSetup: boolean;
-  private methodInstance: PushAfterInterval | undefined;
   private logger: boolean;
 
   /**
@@ -32,7 +32,6 @@ class App {
   constructor(configFilePath: string, logger: boolean = false) {
     this.configFilePath = configFilePath;
     this.applicationSetup = false;
-    this.active = false;
     this.logger = logger;
   }
 
@@ -52,15 +51,15 @@ class App {
       this.secretKey = data.databaseSpecificSettings.secretKey;
       this.outDir = data.outDir;
 
-      this.methodInstance = new PushAfterInterval(
-        this.interval!,
-        this.databaseType,
-        this.outDir,
-        this.logger,
-        this.dbs,
-        this.excludeCollections,
-        this.secretKey
-      );
+      // this.methodInstance = new PushAfterInterval(
+      //   this.interval!,
+      //   this.databaseType,
+      //   this.outDir,
+      //   this.logger,
+      //   this.dbs,
+      //   this.excludeCollections,
+      //   this.secretKey
+      // );
 
       this.applicationSetup = true;
 
@@ -77,8 +76,20 @@ class App {
   async start() {
     try {
       if (this.applicationSetup) {
-        this.active = true;
-        await this.methodInstance!.start();
+        this.methodInstance = new Worker(
+          path.resolve(__dirname, "./methods/PushAfterInterval"),
+          {
+            workerData: {
+              interval: this.interval,
+              databaseType: this.databaseType,
+              outDir: this.outDir,
+              logger: this.logger,
+              dbs: this.dbs,
+              excludeCollections: this.excludeCollections,
+              secretKey: this.secretKey,
+            },
+          }
+        );
       } else {
         formatLog(
           `${chalk.red(
@@ -100,8 +111,9 @@ class App {
    */
   async stop() {
     try {
-      this.active = false;
-      await this.methodInstance?.stop();
+      // @ts-ignore
+      this.methodInstance!.stop();
+      // await this.methodInstance?.stop();
       formatLog("Terminating the application instance.", "error", this.logger);
     } catch (error: any) {
       formatLog("Unexpected error occurred!", "error", this.logger);
