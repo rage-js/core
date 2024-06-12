@@ -1,5 +1,11 @@
 # @rage-js/core
 
+## 1.2.0
+
+### Minor Changes
+
+- Multi Threaded
+
 ## 1.1.2
 
 ### Patch Changes
