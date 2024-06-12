@@ -111,10 +111,13 @@ class App {
    */
   async stop() {
     try {
-      // @ts-ignore
-      this.methodInstance!.stop();
+      this.methodInstance!.postMessage({
+        action: "stop",
+      });
       // await this.methodInstance?.stop();
       formatLog("Terminating the application instance.", "error", this.logger);
+
+      return new Promise((resolve) => setTimeout(resolve, 2000));
     } catch (error: any) {
       formatLog("Unexpected error occurred!", "error", this.logger);
     }

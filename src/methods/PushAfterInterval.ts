@@ -119,4 +119,10 @@ class PushAfterInterval {
   }
 }
 
-new PushAfterInterval();
+const methodInstance = new PushAfterInterval();
+
+parentPort?.on("message", async (message) => {
+  if (message.action === "stop") {
+    await methodInstance.stop();
+  }
+});
