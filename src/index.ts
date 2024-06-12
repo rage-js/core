@@ -28,6 +28,7 @@ class App {
 
   /**
    * @param {string} configFilePath The path to the rage config file
+   * @param [logger=false] Logger toggle to enable or disable logging
    */
   constructor(configFilePath: string, logger: boolean = false) {
     this.configFilePath = configFilePath;
@@ -41,33 +42,41 @@ class App {
    * @returns {boolean}
    */
   async setup() {
-    const data = await readConfigFile(this.configFilePath);
-    if (data !== false) {
-      this.method = data.method;
-      this.interval = data.methodSpecificSettings.interval;
-      this.databaseType = data.databaseType;
-      this.dbs = data.databaseSpecificSettings.dbs;
-      this.excludeCollections =
-        data.databaseSpecificSettings.excludeCollections;
-      this.secretKey = data.databaseSpecificSettings.secretKey;
-      this.outDir = data.outDir;
+    try {
+      const data = await readConfigFile(this.configFilePath, this.logger);
+      if (data !== false) {
+        this.method = data.method;
+        this.interval = data.methodSpecificSettings.interval;
+        this.databaseType = data.databaseType;
+        this.dbs = data.databaseSpecificSettings.dbs;
+        this.excludeCollections =
+          data.databaseSpecificSettings.excludeCollections;
+        this.secretKey = data.databaseSpecificSettings.secretKey;
+        this.outDir = data.outDir;
 
-      this.methodInstance = new PushAfterInterval(
-        this.interval!,
-        this.databaseType,
-        this.outDir,
-        this.logger,
-        this.dbs,
-        this.excludeCollections,
-        this.secretKey
+        this.methodInstance = new PushAfterInterval(
+          this.interval!,
+          this.databaseType,
+          this.outDir,
+          this.logger,
+          this.dbs,
+          this.excludeCollections,
+          this.secretKey
+        );
+
+        this.applicationSetup = true;
+
+        return true;
+      } else {
+        this.applicationSetup = false;
+        return false;
+      }
+    } catch (error: any) {
+      formatLog(
+        "Unexpected error occurred, when trying to setup the configuration",
+        "error",
+        this.logger
       );
-
-      this.applicationSetup = true;
-
-      return true;
-    } else {
-      this.applicationSetup = false;
-      return false;
     }
   }
 
