@@ -55,6 +55,9 @@ class PushAfterInterval {
     this.start();
   }
 
+  /**
+   * The start function which starts this method instance
+   */
   async start() {
     try {
       this.active = true;
@@ -86,6 +89,11 @@ class PushAfterInterval {
       formatLog("Unexpected error occurred!", "error", this.logger);
     }
   }
+
+  /**
+   * The stop function which is called when the method instance should be terminated
+   * @returns {Promise<any> | undefined}
+   */
   async stop() {
     try {
       if (this.active === false) {

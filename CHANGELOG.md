@@ -1,5 +1,17 @@
 # @rage-js/core
 
+## 1.1.2
+
+### Patch Changes
+
+- Type rewrite for few functions and classes
+
+## 1.1.1
+
+### Patch Changes
+
+- Updated module description
+
 ## 1.1.0
 
 ### Minor Changes
