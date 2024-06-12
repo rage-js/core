@@ -58,7 +58,7 @@ async function start() {
 
 start();
 
-process.on("exit" | "SIGINT" | "SIGTERM", async () => {
+process.on("exit" || "SIGINT" || "SIGTERM", async () => {
   await app.stop();
   process.exit(0);
 });
@@ -73,7 +73,7 @@ As you can see, every function in `App` class is async. Now what is `App`?
   - `Stop` - As mentioned above, this function stops the `App` instance and also method instances as well, but it also finally pushes the local json data back to the cloud database and deletes the json data files. It is recommended to add this code block below to run this function when the application is about to terminate, by the user or itself.
 
     ```javascript
-    process.on("exit" | "SIGINT" | "SIGTERM", async () => {
+    process.on("exit" || "SIGINT" || "SIGTERM", async () => {
       await app.stop();
       process.exit(0);
     });
