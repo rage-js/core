@@ -1,4 +1,9 @@
-# @rage-js/core
+<div align='center'>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./img_for_docs/RAGE-core.png">
+    <img src="./img_for_docs/RAGE-core-dark.png" alt="RAGE">
+  </picture>
+</div>
 
 The core module of RAGE which provides the functionality for RAGE methods like **Push After Interval**, **Push On Update** and **No Interval**.
 
