@@ -1,5 +1,11 @@
 # @rage-js/core
 
+## 1.2.1
+
+### Patch Changes
+
+- Edited logger, from turning emojis into flags (e.g. (CONFIG), (FETCH), etc).
+
 ## 1.2.0
 
 ### Minor Changes
