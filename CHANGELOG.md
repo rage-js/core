@@ -1,5 +1,11 @@
 # @rage-js/core
 
+## 1.2.2
+
+### Patch Changes
+
+- Added new logo for this package, the image is shown on README
+
 ## 1.2.1
 
 ### Patch Changes
