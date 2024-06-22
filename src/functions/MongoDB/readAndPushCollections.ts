@@ -65,10 +65,8 @@ async function readAndPushCollections(
               );
             } else {
               formatLog(
-                `${chalk.red(
-                  "(FINAL)"
-                )} Pushing ${dbName}/${collectionName}.json`,
-                "push",
+                `Pushing ${dbName}/${collectionName}.json`,
+                "final",
                 logger
               );
             }

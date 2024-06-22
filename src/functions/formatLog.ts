@@ -4,48 +4,45 @@ import getCurrentTime from "./getCurrentTime";
 /**
  * Formats the given message and logs it in the console.
  * @param {string} message
- * @param {"config" | "pull" | "push" | "warning" | "error"} type
+ * @param {"config" | "fetch" | "push" | "warning" | "error" | "final"} type
  * @param {boolean} logger
  */
 function formatLog(
   message: string,
-  type: "config" | "pull" | "push" | "warning" | "error",
+  type: "config" | "fetch" | "push" | "warning" | "error" | "final",
   logger: boolean
 ) {
   if (logger) {
     try {
-      let emoji = "⚙️";
-      let color = chalk.white;
+      let flag = chalk.bold(chalk.white("(CONFIG)"));
 
       if (type === "config") {
-        emoji = "⚙️";
-        color = chalk.white;
+        flag = chalk.bold(chalk.white("(CONFIG)"));
       }
-      if (type === "pull") {
-        emoji = "↙️";
-        color = chalk.white;
+      if (type === "fetch") {
+        flag = chalk.bold(chalk.greenBright("(FETCH)"));
       }
       if (type === "push") {
-        emoji = "↗️";
-        color = chalk.white;
+        flag = chalk.bold(chalk.green("(PUSH)"));
       }
       if (type === "warning") {
-        emoji = "⚠️";
-        color = chalk.yellow;
+        flag = chalk.bold(chalk.yellow("(CONFIG)"));
       }
       if (type === "error") {
-        emoji = "🛑";
-        color = chalk.red;
+        flag = chalk.bold(chalk.red("(ERROR)"));
+      }
+      if (type === "final") {
+        flag = chalk.bold(chalk.red("(FINAL)"));
       }
 
-      console.log(
-        `${emoji} ${chalk.bold(`[${getCurrentTime()}]`)} ${color(message)}`
-      );
+      console.log(`${flag} ${chalk.bold(`[${getCurrentTime()}]`)} ${message}`);
 
       return;
     } catch (error: any) {
       console.log(
-        `🛑 ${chalk.bold(`[${getCurrentTime()}]`)} Unexpected error occurred!`
+        `${chalk.bold(chalk.red("(ERROR)"))} ${chalk.bold(
+          `[${getCurrentTime()}]`
+        )} Unexpected error occurred!`
       );
 
       return;

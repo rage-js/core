@@ -38,7 +38,7 @@ async function pullDatabase(
           if (res !== false) {
             formatLog(
               `Fetching ${dbName}.${collectionName} => ${res}`,
-              "pull",
+              "fetch",
               logger
             );
           }
