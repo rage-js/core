@@ -38,6 +38,25 @@ async function writeJsonFiles(
       formatLog(`Directory created: ${folderPath}`, "config", logger);
     }
 
+    const schemasFolderPath = path.join(folderPath, "schemas");
+
+    if (!fsS.existsSync(schemasFolderPath)) {
+      await fsP.mkdir(schemasFolderPath, { recursive: true });
+      formatLog(
+        `Schemas folder created for ${databaseName}: ${schemasFolderPath}`,
+        "config",
+        logger
+      );
+    }
+
+    if (!fsS.existsSync(path.join(schemasFolderPath, `${fileName}.js`))) {
+      formatLog(
+        `Schema not found for ${databaseName}/${fileName}, please create a schema file with the name of the collection.`,
+        "warning",
+        logger
+      );
+    }
+
     await fsP.writeFile(finalFilePath, convertedJsonData);
 
     return finalFilePath;

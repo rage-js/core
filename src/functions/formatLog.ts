@@ -26,7 +26,7 @@ function formatLog(
         flag = chalk.bold(chalk.green("(PUSH)"));
       }
       if (type === "warning") {
-        flag = chalk.bold(chalk.yellow("(CONFIG)"));
+        flag = chalk.bold(chalk.yellow("(WARNING)"));
       }
       if (type === "error") {
         flag = chalk.bold(chalk.red("(ERROR)"));
