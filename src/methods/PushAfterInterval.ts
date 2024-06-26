@@ -92,9 +92,9 @@ class PushAfterInterval {
 
   /**
    * The stop function which is called when the method instance should be terminated
-   * @returns {Promise<any> | undefined}
+   * @returns {Promise<any | false>}
    */
-  async stop() {
+  async stop(): Promise<any | false> {
     try {
       if (this.active === false) {
         formatLog(
@@ -123,6 +123,8 @@ class PushAfterInterval {
       }
     } catch (error: any) {
       formatLog("Unexpected error occurred!", "error", this.logger);
+
+      return false;
     }
   }
 }

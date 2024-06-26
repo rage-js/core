@@ -6,6 +6,7 @@ import getCurrentTime from "./getCurrentTime";
  * @param {string} message
  * @param {"config" | "fetch" | "push" | "warning" | "error" | "final"} type
  * @param {boolean} logger
+ * @returns
  */
 function formatLog(
   message: string,

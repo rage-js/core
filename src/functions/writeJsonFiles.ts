@@ -10,6 +10,7 @@ import formatLog from "./formatLog";
  * @param {string} databaseName
  * @param {any} dataToWrite
  * @param [logger=false]
+ * @returns {Promise<string | false>}
  */
 async function writeJsonFiles(
   dirPath: string,
@@ -17,7 +18,7 @@ async function writeJsonFiles(
   databaseName: string,
   dataToWrite: any,
   logger: boolean = false
-) {
+): Promise<string | false> {
   try {
     const folderPath = path.join(dirPath, databaseName);
     const finalFilePath = `${path.join(dirPath, databaseName, fileName)}.json`;

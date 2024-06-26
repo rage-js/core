@@ -10,6 +10,7 @@ import chalk from "chalk";
  * @param {dbs} dbs
  * @param {excludeCollections} excludeCollections
  * @param {string} outDir
+ * @returns
  */
 async function readAndPushCollections(
   mongodbClient: MongoClient,

@@ -1,7 +1,8 @@
 /**
  * Get current time to log on console
+ * @returns {string | false}
  */
-function getCurrentTime() {
+function getCurrentTime(): string | false {
   try {
     const now = new Date();
 
@@ -22,6 +23,8 @@ function getCurrentTime() {
     return `${hours}:${minutes}:${seconds}`;
   } catch (error: any) {
     console.error(error); // Throw error, do not just console log
+
+    return false;
   }
 }
 

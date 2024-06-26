@@ -38,9 +38,9 @@ class App {
 
   /**
    * Function that should be ran before the start function to read and setup the application configuration
-   * @returns {boolean}
+   * @returns {Promise<boolean>}
    */
-  async setup() {
+  async setup(): Promise<boolean> {
     try {
       const data = await readConfigFile(this.configFilePath, this.logger);
       if (data !== false) {
@@ -76,6 +76,8 @@ class App {
         "error",
         this.logger
       );
+
+      return false;
     }
   }
 
@@ -117,8 +119,9 @@ class App {
 
   /**
    * The stop function which terminates this application instance and also the method instance
+   * @returns {Promise<any | false>}
    */
-  async stop() {
+  async stop(): Promise<any | false> {
     try {
       this.methodInstance!.postMessage({
         action: "stop",
@@ -129,6 +132,8 @@ class App {
       return new Promise((resolve) => setTimeout(resolve, 2000));
     } catch (error: any) {
       formatLog("Unexpected error occurred!", "error", this.logger);
+
+      return false;
     }
   }
 }
