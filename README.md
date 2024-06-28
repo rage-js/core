@@ -7,7 +7,7 @@
 
 The core module of RAGE which provides the functionality for RAGE methods like **Push After Interval**, **Push On Update** and **No Interval**.
 
-_Read the full documentation about the CLI through this link: **https://github.com/rage-js/docs**_
+_Read the full documentation about the core module through this link: **https://github.com/rage-js/docs**_
 
 # Table of Contents
 
