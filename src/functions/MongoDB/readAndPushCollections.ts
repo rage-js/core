@@ -21,12 +21,33 @@ async function readAndPushCollections(
   finalPush: boolean = false
 ) {
   try {
+    // Check if there is any collection in the local database that isn't already in the MongoDB database
+    // If there is one, create that collection in the MongoDB database
+    // Add all the documents inside that collection into the collection created on MongoDB database
+
     const actualPath = path.join(process.cwd(), outDir);
 
     dbs.forEach(async (dbName) => {
       const db = mongodbClient.db(dbName);
-      const collections = await db.listCollections().toArray();
 
+      let allCollections = await fs.readdir(
+        path.join(actualPath, `/${dbName}`),
+        "utf-8"
+      );
+
+      allCollections = allCollections.filter(
+        (file) => path.extname(file).toLowerCase() === ".json"
+      );
+
+      allCollections.forEach(async (collection) => {
+        collection = collection.slice(0, -5);
+        const cols = await db.listCollections({ name: collection }).toArray();
+        if (cols.length === 0) {
+          await db.createCollection(collection);
+        }
+      });
+
+      const collections = await db.listCollections().toArray();
       for (const collection of collections) {
         const collectionName = collection.name;
         if (collectionName in excludeCollections) {
