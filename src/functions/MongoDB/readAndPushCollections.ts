@@ -44,6 +44,7 @@ async function readAndPushCollections(
         const cols = await db.listCollections({ name: collection }).toArray();
         if (cols.length === 0) {
           await db.createCollection(collection);
+          formatLog(`Created new collection: ${collection}`, "new", logger);
         }
       });
 
