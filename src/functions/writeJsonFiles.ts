@@ -50,7 +50,7 @@ async function writeJsonFiles(
       );
     }
 
-    if (!fsS.existsSync(path.join(schemasFolderPath, `${fileName}.js`))) {
+    if (!fsS.existsSync(path.join(schemasFolderPath, `${fileName}.json`))) {
       formatLog(
         `Schema not found for ${databaseName}/${fileName}, please create a schema file with the name of the collection.`,
         "warning",
