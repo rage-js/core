@@ -10,6 +10,9 @@ import chalk from "chalk";
  * @param {dbs} dbs
  * @param {excludeCollections} excludeCollections
  * @param {string} outDir
+ * @param [logger=false]
+ * @param {number} pushCount
+ * @param [finalPush=false]
  * @returns
  */
 async function readAndPushCollections(
@@ -18,6 +21,7 @@ async function readAndPushCollections(
   excludeCollections: string[],
   outDir: string,
   logger: boolean = false,
+  pushCount: number,
   finalPush: boolean = false
 ) {
   try {
@@ -82,13 +86,17 @@ async function readAndPushCollections(
 
             if (!finalPush) {
               formatLog(
-                `Pushing ${dbName}/${collectionName}.json`,
+                `${chalk.bold(
+                  `(${pushCount})`
+                )} Pushing ${dbName}/${collectionName}.json`,
                 "push",
                 logger
               );
             } else {
               formatLog(
-                `Pushing ${dbName}/${collectionName}.json`,
+                `${chalk.bold(
+                  `(${pushCount})`
+                )} Pushing ${dbName}/${collectionName}.json`,
                 "final",
                 logger
               );

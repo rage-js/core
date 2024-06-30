@@ -17,6 +17,7 @@ class PushAfterInterval {
   outDir: string;
   mongodbClient?: any;
   logger: boolean;
+  pushCount: number = 0;
 
   constructor() {
     const {
@@ -73,12 +74,15 @@ class PushAfterInterval {
       let firstIteration = true;
       while (this.active) {
         if (!firstIteration) {
+          this.pushCount++;
+
           await readAndPushCollections(
             this.mongodbClient,
             this.dbs!,
             this.excludeCollections!,
             this.outDir,
-            this.logger
+            this.logger,
+            this.pushCount
           );
         } else {
           firstIteration = false;
@@ -104,13 +108,14 @@ class PushAfterInterval {
         );
       } else {
         this.active = false;
-
+        this.pushCount++;
         await readAndPushCollections(
           this.mongodbClient,
           this.dbs!,
           this.excludeCollections!,
           this.outDir,
           this.logger,
+          this.pushCount,
           true // Set this to final push mode
         );
 
