@@ -8,7 +8,7 @@ import { parentPort, workerData } from "worker_threads";
  * The class which simulates the Push After Interval method
  */
 class PushAfterInterval {
-  active: boolean;
+  active: boolean | "offline";
   interval: number;
   databaseType: "MongoDB";
   dbs?: string[];
@@ -39,21 +39,44 @@ class PushAfterInterval {
       this.dbs = dbs ? dbs : [];
       this.excludeCollections = excludeCollections ? excludeCollections : [];
       if (secretKey) {
-        try {
-          this.mongodbClient = new MongoClient(secretKey);
-          this.mongodbClient.connect();
-          formatLog("Connected to MongoDB Client", "config", this.logger);
-        } catch (error) {
-          formatLog(
-            "Unable to connect to MongoDB Client",
-            "error",
-            this.logger
-          );
-        }
+        this.mongodbClient = new MongoClient(secretKey);
+        this.connectToMongoDB();
       }
     }
 
-    this.start();
+    // Sleep for a few seconds to let all the error handlers finish
+    new Promise((resolve) => {
+      setTimeout(() => {
+        // If there were any errors on connecting to the MongoDB, the mongodbClient will be null
+        if (this.mongodbClient) {
+          this.start();
+        } else {
+          formatLog(
+            "Couldn't execute the method instace due to network issue, from now on you can't fetch or push anything to MongoDB. The application instance maybe active, but the method instance will be terminated. You can still use the Took Kit and once the network issue is resolved, please re-run the application and be sure to set 'fetchOnFirst' to false on your 'rage.config.json' file temporarily. You can read the full guide on: https://github.com/rage-js/docs",
+            "warning",
+            this.logger
+          );
+
+          // active variable also can be assigned "offline" along with boolean values, to indicate that the method instance is terminated because of network issues.
+          this.active = "offline";
+          this.stop();
+        }
+
+        resolve;
+      }, 3000);
+    });
+  }
+
+  private async connectToMongoDB() {
+    try {
+      await this.mongodbClient.connect();
+      formatLog("Connected to MongoDB Client", "config", this.logger);
+      return true;
+    } catch (error: any) {
+      formatLog("Unable to connect to MongoDB Client", "error", this.logger);
+      this.mongodbClient = null;
+      return false;
+    }
   }
 
   /**
@@ -100,6 +123,10 @@ class PushAfterInterval {
    */
   async stop(): Promise<any | false> {
     try {
+      if (this.active === "offline") {
+        return;
+      }
+
       if (this.active === false) {
         formatLog(
           "The application is already inactive!",
