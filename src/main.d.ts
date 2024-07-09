@@ -10,6 +10,7 @@ interface configurationType {
     excludeCollections?: string[];
   };
   outDir: string;
+  fetchOnFirst?: boolean;
 }
 
 export { configurationType };
