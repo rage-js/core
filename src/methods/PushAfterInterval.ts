@@ -18,6 +18,7 @@ class PushAfterInterval {
   mongodbClient?: any;
   logger: boolean;
   pushCount: number = 0;
+  fetchOnFirst: boolean;
 
   constructor() {
     const {
@@ -28,6 +29,7 @@ class PushAfterInterval {
       dbs,
       excludeCollections,
       secretKey,
+      fetchOnFirst,
     } = workerData;
 
     this.active = false;
@@ -35,6 +37,7 @@ class PushAfterInterval {
     this.interval = interval;
     this.databaseType = databaseType;
     this.outDir = outDir;
+    this.fetchOnFirst = fetchOnFirst;
     if (databaseType === "MongoDB") {
       this.dbs = dbs ? dbs : [];
       this.excludeCollections = excludeCollections ? excludeCollections : [];
@@ -63,7 +66,7 @@ class PushAfterInterval {
         }
 
         resolve;
-      }, 3000);
+      }, 2000);
     });
   }
 
@@ -86,13 +89,16 @@ class PushAfterInterval {
     try {
       this.active = true;
 
-      await pullDatabase(
-        this.mongodbClient,
-        this.dbs!,
-        this.excludeCollections!,
-        this.outDir,
-        this.logger
-      );
+      console.log(this.fetchOnFirst);
+      if (this.fetchOnFirst) {
+        await pullDatabase(
+          this.mongodbClient,
+          this.dbs!,
+          this.excludeCollections!,
+          this.outDir,
+          this.logger
+        );
+      }
 
       let firstIteration = true;
       while (this.active) {

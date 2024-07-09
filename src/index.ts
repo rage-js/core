@@ -22,6 +22,7 @@ class App {
   private secretKey?: string;
   private dbs?: string[];
   private excludeCollections?: string[];
+  private fetchOnFirst: boolean = true;
 
   private applicationSetup: boolean;
   private logger: boolean;
@@ -52,6 +53,9 @@ class App {
           data.databaseSpecificSettings.excludeCollections;
         this.secretKey = data.databaseSpecificSettings.secretKey;
         this.outDir = data.outDir;
+        if (data.fetchOnFirst !== undefined) {
+          this.fetchOnFirst = data.fetchOnFirst;
+        }
 
         // this.methodInstance = new PushAfterInterval(
         //   this.interval!,
@@ -98,6 +102,7 @@ class App {
               dbs: this.dbs,
               excludeCollections: this.excludeCollections,
               secretKey: this.secretKey,
+              fetchOnFirst: this.fetchOnFirst,
             },
           }
         );
