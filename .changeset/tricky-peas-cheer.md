@@ -1,0 +1,6 @@
+---
+"@rage-js/core": patch
+---
+
+- Bug fix: Whenever you try to run the application while being offline, it will now detect if there is any problem with connecting MongoDB _(Error on connecting to MongoDB means that there could be a network issue from the client side)_ the application will throw an error saying that it's unable to connect to MongoDB server and display a warning that the method instance will be terminated, but the application instance will still be running, meaning that people can still use the RAGE Tool Kit.
+- Feature: As mentioned above, you can use the RAGE Tool Kit and work with the local database to push it back to cloud when the internet is back, but the application had a permanent step to fetch the database right after connecting to MongoDB. Meaning all the changes you made to the local database will be reverted back to the state before the internet disconnect. Hence, a new optimal field is added to the `rage.config.json` called `fetchOnFirst` to toggle whether should the fetching database step be skipped, or not. This will be `true` by default, but for situations like mentioned in the example above, the user can use this feature to disable fetching step temporarily.
