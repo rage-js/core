@@ -12,7 +12,7 @@ class App {
   private methodInstance: Worker | null = null;
 
   // @ts-ignore
-  private method: "PAI";
+  private method: "PAI" | "NI";
   // @ts-ignore
   private databaseType: "MongoDB";
   // @ts-ignore
@@ -91,21 +91,39 @@ class App {
   async start() {
     try {
       if (this.applicationSetup) {
-        this.methodInstance = new Worker(
-          path.resolve(__dirname, "./methods/PushAfterInterval"),
-          {
-            workerData: {
-              interval: this.interval,
-              databaseType: this.databaseType,
-              outDir: this.outDir,
-              logger: this.logger,
-              dbs: this.dbs,
-              excludeCollections: this.excludeCollections,
-              secretKey: this.secretKey,
-              fetchOnFirst: this.fetchOnFirst,
-            },
-          }
-        );
+        if (this.method === "PAI") {
+          this.methodInstance = new Worker(
+            path.resolve(__dirname, "./methods/PushAfterInterval"),
+            {
+              workerData: {
+                interval: this.interval,
+                databaseType: this.databaseType,
+                outDir: this.outDir,
+                logger: this.logger,
+                dbs: this.dbs,
+                excludeCollections: this.excludeCollections,
+                secretKey: this.secretKey,
+                fetchOnFirst: this.fetchOnFirst,
+              },
+            }
+          );
+        }
+
+        if (this.method === "NI") {
+          this.methodInstance = new Worker(
+            path.resolve(__dirname, "./methods/NoInterval"),
+            {
+              workerData: {
+                logger: this.logger,
+                databaseType: this.databaseType,
+                outDir: this.outDir,
+                dbs: this.dbs,
+                excludeCollections: this.excludeCollections,
+                secretKey: this.secretKey,
+              },
+            }
+          );
+        }
       } else {
         formatLog(
           `${chalk.red(
@@ -118,6 +136,7 @@ class App {
         );
       }
     } catch (error: any) {
+      console.log(error);
       formatLog("Unexpected error occurred!", "error", this.logger);
     }
   }
