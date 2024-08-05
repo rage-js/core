@@ -1,10 +1,12 @@
 interface configurationType {
-  method: "PAI";
+  method: "PAI" | "NI";
   methodSpecificSettings: {
+    // Push After Interval
     interval?: number;
   };
   databaseType: "MongoDB";
   databaseSpecificSettings: {
+    // MongoDB
     secretKey?: string;
     dbs?: string[];
     excludeCollections?: string[];
