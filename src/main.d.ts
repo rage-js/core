@@ -13,6 +13,7 @@ interface configurationType {
   };
   outDir: string;
   fetchOnFirst?: boolean;
+  loopStartDelay?: number;
 }
 
 export { configurationType };
