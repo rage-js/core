@@ -93,21 +93,7 @@ class NoInterval {
         this.logger
       );
 
-      let firstIteration = true;
       while (this.active) {
-        if (firstIteration) {
-          await readAndPushCollections(
-            this.mongodbClient,
-            this.dbs!,
-            this.excludeCollections!,
-            this.outDir,
-            this.logger,
-            1
-          );
-
-          firstIteration = false;
-        }
-
         await new Promise((resolve) => setTimeout(resolve, 3000));
       }
     } catch (error) {
