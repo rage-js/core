@@ -1,15 +1,14 @@
 import { MongoClient } from "mongodb";
+import { parentPort, workerData } from "worker_threads";
 import formatLog from "../functions/formatLog";
 import pullDatabase from "../functions/MongoDB/pullDatabase";
 import readAndPushCollections from "../functions/MongoDB/readAndPushCollections";
-import { parentPort, workerData } from "worker_threads";
 
 /**
- * The class which simulates the Push After Interval method
+ * The class which simulates the No Interval method
  */
-class PushAfterInterval {
+class NoInterval {
   active: boolean | "offline";
-  interval: number;
   databaseType: "MongoDB";
   dbs?: string[];
   excludeCollections?: string[];
@@ -17,40 +16,34 @@ class PushAfterInterval {
   outDir: string;
   mongodbClient?: any;
   logger: boolean;
-  pushCount: number = 0;
-  fetchOnFirst: boolean;
   loopStartDelay: number;
 
   constructor() {
     const {
       logger,
-      interval,
       databaseType,
-      outDir,
       dbs,
+      outDir,
       excludeCollections,
       secretKey,
-      fetchOnFirst,
       loopStartDelay,
     } = workerData;
 
     this.active = false;
     this.logger = logger;
-    this.interval = interval;
     this.databaseType = databaseType;
     this.outDir = outDir;
-    this.fetchOnFirst = fetchOnFirst;
     this.loopStartDelay = loopStartDelay;
     if (databaseType === "MongoDB") {
       this.dbs = dbs ? dbs : [];
       this.excludeCollections = excludeCollections ? excludeCollections : [];
       if (secretKey) {
         this.mongodbClient = new MongoClient(secretKey);
-        this.connectToMongoDB();
+        this.connectToMMongoDB();
       }
     }
 
-    // Sleep for a few seconds to let all the error handlers finish
+    // Sleep for a few seconds to let all error handlers finish
     new Promise((resolve) => {
       setTimeout(() => {
         // If there were any errors on connecting to the MongoDB, the mongodbClient will be null
@@ -73,12 +66,12 @@ class PushAfterInterval {
     });
   }
 
-  private async connectToMongoDB() {
+  private async connectToMMongoDB() {
     try {
       await this.mongodbClient.connect();
       formatLog("Connected to MongoDB Client", "config", this.logger);
       return true;
-    } catch (error: any) {
+    } catch (error) {
       formatLog("Unable to connect to MongoDB Client", "error", this.logger);
       this.mongodbClient = null;
       return false;
@@ -92,36 +85,32 @@ class PushAfterInterval {
     try {
       this.active = true;
 
-      console.log(this.fetchOnFirst);
-      if (this.fetchOnFirst) {
-        await pullDatabase(
-          this.mongodbClient,
-          this.dbs!,
-          this.excludeCollections!,
-          this.outDir,
-          this.logger
-        );
-      }
+      await pullDatabase(
+        this.mongodbClient,
+        this.dbs!,
+        this.excludeCollections!,
+        this.outDir,
+        this.logger
+      );
 
       let firstIteration = true;
       while (this.active) {
-        if (!firstIteration) {
-          this.pushCount++;
-
+        if (firstIteration) {
           await readAndPushCollections(
             this.mongodbClient,
             this.dbs!,
             this.excludeCollections!,
             this.outDir,
             this.logger,
-            this.pushCount
+            1
           );
-        } else {
+
           firstIteration = false;
         }
-        await new Promise((resolve) => setTimeout(resolve, this.interval));
+
+        await new Promise((resolve) => setTimeout(resolve, 3000));
       }
-    } catch (error: any) {
+    } catch (error) {
       formatLog("Unexpected error occurred!", "error", this.logger);
     }
   }
@@ -144,14 +133,13 @@ class PushAfterInterval {
         );
       } else {
         this.active = false;
-        this.pushCount++;
         await readAndPushCollections(
           this.mongodbClient,
           this.dbs!,
           this.excludeCollections!,
           this.outDir,
           this.logger,
-          this.pushCount,
+          2,
           true // Set this to final push mode
         );
 
@@ -170,7 +158,7 @@ class PushAfterInterval {
   }
 }
 
-const methodInstance = new PushAfterInterval();
+const methodInstance = new NoInterval();
 
 parentPort?.on("message", async (message) => {
   if (message.action === "stop") {

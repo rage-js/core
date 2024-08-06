@@ -12,7 +12,7 @@ class App {
   private methodInstance: Worker | null = null;
 
   // @ts-ignore
-  private method: "PAI";
+  private method: "PAI" | "NI";
   // @ts-ignore
   private databaseType: "MongoDB";
   // @ts-ignore
@@ -23,6 +23,7 @@ class App {
   private dbs?: string[];
   private excludeCollections?: string[];
   private fetchOnFirst: boolean = true;
+  private loopStartDelay: number = 3000;
 
   private applicationSetup: boolean;
   private logger: boolean;
@@ -53,6 +54,7 @@ class App {
           data.databaseSpecificSettings.excludeCollections;
         this.secretKey = data.databaseSpecificSettings.secretKey;
         this.outDir = data.outDir;
+        this.loopStartDelay = data.loopStartDelay;
         if (data.fetchOnFirst !== undefined) {
           this.fetchOnFirst = data.fetchOnFirst;
         }
@@ -91,21 +93,41 @@ class App {
   async start() {
     try {
       if (this.applicationSetup) {
-        this.methodInstance = new Worker(
-          path.resolve(__dirname, "./methods/PushAfterInterval"),
-          {
-            workerData: {
-              interval: this.interval,
-              databaseType: this.databaseType,
-              outDir: this.outDir,
-              logger: this.logger,
-              dbs: this.dbs,
-              excludeCollections: this.excludeCollections,
-              secretKey: this.secretKey,
-              fetchOnFirst: this.fetchOnFirst,
-            },
-          }
-        );
+        if (this.method === "PAI") {
+          this.methodInstance = new Worker(
+            path.resolve(__dirname, "./methods/PushAfterInterval"),
+            {
+              workerData: {
+                interval: this.interval,
+                databaseType: this.databaseType,
+                outDir: this.outDir,
+                logger: this.logger,
+                dbs: this.dbs,
+                excludeCollections: this.excludeCollections,
+                secretKey: this.secretKey,
+                fetchOnFirst: this.fetchOnFirst,
+                loopStartDelay: this.loopStartDelay,
+              },
+            }
+          );
+        }
+
+        if (this.method === "NI") {
+          this.methodInstance = new Worker(
+            path.resolve(__dirname, "./methods/NoInterval"),
+            {
+              workerData: {
+                logger: this.logger,
+                databaseType: this.databaseType,
+                outDir: this.outDir,
+                dbs: this.dbs,
+                excludeCollections: this.excludeCollections,
+                secretKey: this.secretKey,
+                loopStartDelay: this.loopStartDelay,
+              },
+            }
+          );
+        }
       } else {
         formatLog(
           `${chalk.red(
@@ -118,6 +140,7 @@ class App {
         );
       }
     } catch (error: any) {
+      console.log(error);
       formatLog("Unexpected error occurred!", "error", this.logger);
     }
   }
