@@ -133,24 +133,22 @@ class NoInterval {
         );
       } else {
         this.active = false;
-        // await readAndPushCollections(
-        //   this.mongodbClient,
-        //   this.dbs!,
-        //   this.excludeCollections!,
-        //   this.outDir,
-        //   this.logger,
-        //   2,
-        //   true // Set this to final push mode
-        // );
+        await readAndPushCollections(
+          this.mongodbClient,
+          this.dbs!,
+          this.excludeCollections!,
+          this.outDir,
+          this.logger,
+          2,
+          true // Set this to final push mode
+        );
 
-        return;
-
-        // return new Promise((resolve) =>
-        //   setTimeout(() => {
-        //     formatLog("Terminating the method instance.", "error", this.logger);
-        //     resolve(true);
-        //   }, 3500)
-        // );
+        return new Promise((resolve) =>
+          setTimeout(() => {
+            formatLog("Terminating the method instance.", "error", this.logger);
+            resolve(true);
+          }, 3500)
+        );
       }
     } catch (error: any) {
       formatLog("Unexpected error occurred!", "error", this.logger);
