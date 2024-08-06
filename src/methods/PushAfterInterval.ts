@@ -92,7 +92,6 @@ class PushAfterInterval {
     try {
       this.active = true;
 
-      console.log(this.fetchOnFirst);
       if (this.fetchOnFirst) {
         await pullDatabase(
           this.mongodbClient,
