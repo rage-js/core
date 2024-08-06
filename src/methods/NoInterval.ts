@@ -16,15 +16,24 @@ class NoInterval {
   outDir: string;
   mongodbClient?: any;
   logger: boolean;
+  loopStartDelay: number;
 
   constructor() {
-    const { logger, databaseType, dbs, outDir, excludeCollections, secretKey } =
-      workerData;
+    const {
+      logger,
+      databaseType,
+      dbs,
+      outDir,
+      excludeCollections,
+      secretKey,
+      loopStartDelay,
+    } = workerData;
 
     this.active = false;
     this.logger = logger;
     this.databaseType = databaseType;
     this.outDir = outDir;
+    this.loopStartDelay = loopStartDelay;
     if (databaseType === "MongoDB") {
       this.dbs = dbs ? dbs : [];
       this.excludeCollections = excludeCollections ? excludeCollections : [];
@@ -53,7 +62,7 @@ class NoInterval {
         }
 
         resolve;
-      }, 10000);
+      }, loopStartDelay);
     });
   }
 

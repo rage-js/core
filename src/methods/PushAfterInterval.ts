@@ -19,6 +19,7 @@ class PushAfterInterval {
   logger: boolean;
   pushCount: number = 0;
   fetchOnFirst: boolean;
+  loopStartDelay: number;
 
   constructor() {
     const {
@@ -30,6 +31,7 @@ class PushAfterInterval {
       excludeCollections,
       secretKey,
       fetchOnFirst,
+      loopStartDelay,
     } = workerData;
 
     this.active = false;
@@ -38,6 +40,7 @@ class PushAfterInterval {
     this.databaseType = databaseType;
     this.outDir = outDir;
     this.fetchOnFirst = fetchOnFirst;
+    this.loopStartDelay = loopStartDelay;
     if (databaseType === "MongoDB") {
       this.dbs = dbs ? dbs : [];
       this.excludeCollections = excludeCollections ? excludeCollections : [];
@@ -66,7 +69,7 @@ class PushAfterInterval {
         }
 
         resolve;
-      }, 2000);
+      }, loopStartDelay);
     });
   }
 

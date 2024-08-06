@@ -23,6 +23,7 @@ class App {
   private dbs?: string[];
   private excludeCollections?: string[];
   private fetchOnFirst: boolean = true;
+  private loopStartDelay: number = 3000;
 
   private applicationSetup: boolean;
   private logger: boolean;
@@ -53,6 +54,7 @@ class App {
           data.databaseSpecificSettings.excludeCollections;
         this.secretKey = data.databaseSpecificSettings.secretKey;
         this.outDir = data.outDir;
+        this.loopStartDelay = data.loopStartDelay;
         if (data.fetchOnFirst !== undefined) {
           this.fetchOnFirst = data.fetchOnFirst;
         }
@@ -104,6 +106,7 @@ class App {
                 excludeCollections: this.excludeCollections,
                 secretKey: this.secretKey,
                 fetchOnFirst: this.fetchOnFirst,
+                loopStartDelay: this.loopStartDelay,
               },
             }
           );
@@ -120,6 +123,7 @@ class App {
                 dbs: this.dbs,
                 excludeCollections: this.excludeCollections,
                 secretKey: this.secretKey,
+                loopStartDelay: this.loopStartDelay,
               },
             }
           );
