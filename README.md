@@ -74,7 +74,7 @@ As you can see, every function in `App` class is async. Now what is `App`?
 - `App` is the initializer and also the main thing that runs the core instance to run the methods, etc. When initialzing the `App`, you have to provide two parameters, one is the path to the `rage.config.json` file, while the other one is to toggle logger on or off.
 
   - `Setup` - You have to run `setup()` function before starting the app or doing anything else. Because that function will read the configuration file and setup it up as class variables for other functions to access later. If you ran `start()` before this function, then it shall throw an error to run `setup()` before starting the application.
-  - `Start` - As the name suggests, this function starts the the `App` instance and also method instances as well. Basically the `App` will have a loop that runs until `stop()` is called, so that's the loop where methods like **Push After Interval** and **Push On Update**.
+  - `Start` - As the name suggests, this function starts the the `App` instance and also method instances as well. Basically the `App` will run a method instance loop that runs until `stop()` is called.
   - `Stop` - As mentioned above, this function stops the `App` instance and also method instances as well, but it also finally pushes the local json data back to the cloud database and deletes the json data files. It is recommended to add this code block below to run this function when the application is about to terminate, by the user or itself.
 
     ```javascript
