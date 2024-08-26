@@ -14,11 +14,25 @@ async function readConfigFile(
   logger: boolean
 ): Promise<configurationType | false> {
   try {
-    const finalPath = path.join(process.cwd(), configFilePath);
-    const data = await fs.readFile(finalPath, "utf-8");
+    // const finalPath = path.join(process.cwd(), configFilePath);
+    const data = await fs.readFile(configFilePath, "utf-8");
     return JSON.parse(data);
   } catch (error: any) {
-    formatLog("Failed to read the config file!", "error", logger);
+    if (error.code === "ENOENT") {
+      formatLog(
+        `Given config file path does not exist: ${configFilePath}`,
+        "error",
+        logger
+      );
+
+      formatLog(
+        `Always try to mention the full path of the config file`,
+        "warning",
+        logger
+      );
+    } else {
+      formatLog("Failed to read the config file!", "error", logger);
+    }
     return false;
   }
 }

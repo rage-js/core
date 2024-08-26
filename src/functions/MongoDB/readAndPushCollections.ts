@@ -29,13 +29,13 @@ async function readAndPushCollections(
     // If there is one, create that collection in the MongoDB database
     // Add all the documents inside that collection into the collection created on MongoDB database
 
-    const actualPath = path.join(process.cwd(), outDir);
+    // const actualPath = path.join(process.cwd(), outDir);
 
     dbs.forEach(async (dbName) => {
       const db = mongodbClient.db(dbName);
 
       let allCollections = await fs.readdir(
-        path.join(actualPath, `/${dbName}`),
+        path.join(outDir, `/${dbName}`),
         "utf-8"
       );
 
@@ -59,7 +59,7 @@ async function readAndPushCollections(
           // Skip
         } else {
           const fullPath = path.join(
-            actualPath,
+            outDir,
             `/${dbName}`,
             `/${collectionName}.json`
           );
@@ -104,11 +104,24 @@ async function readAndPushCollections(
 
             continue;
           } catch (error: any) {
-            formatLog(
-              `Error while trying read ${fullPath}, maybe the path doesn't exist.`,
-              "error",
-              logger
-            );
+            if (error.code === "ENOENT") {
+              formatLog(
+                `Error while trying read ${fullPath}, maybe the path doesn't exist.`,
+                "error",
+                logger
+              );
+              formatLog(
+                "Always try to mention full paths on config files",
+                "warning",
+                logger
+              );
+            } else {
+              formatLog(
+                `Unexpected error occurred while trying to read ${fullPath}.`,
+                "error",
+                logger
+              );
+            }
           }
         }
       }
@@ -116,7 +129,20 @@ async function readAndPushCollections(
 
     return;
   } catch (error: any) {
-    formatLog("Unexpected error occurred!", "error", true);
+    if (error.code === "ENOENT") {
+      formatLog(`Given path does not exist: ${outDir}`, "error", error);
+      formatLog(
+        `Always try to mention full paths on config files`,
+        "warning",
+        logger
+      );
+    } else {
+      formatLog(
+        `Unexpected error occurred while trying to read ${outDir}`,
+        "error",
+        true
+      );
+    }
 
     return;
   }
