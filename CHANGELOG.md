@@ -1,5 +1,13 @@
 # @rage-js/core
 
+## 2.0.2
+
+### Patch Changes
+
+- b7a0082: ## Bug Fix:
+
+  - Removed `process.cwd()` from `core` module, as per [Issue #44](https://github.com/rage-js/core/issues/44).
+
 ## 2.0.1
 
 ### Patch Changes
