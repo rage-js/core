@@ -1,0 +1,45 @@
+name: Generate Docs
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  generate-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate TypeDoc
+        run: npm run docs
+
+      - name: Checkout docs-repo
+        uses: actions/checkout@v3
+        with:
+          repository: rage-js/docs
+          token: ${{ secrets.PAT_TOKEN }}
+          path: rage-js-docs
+
+      - name: Copy docs to rage-js-docs
+        run: |
+          rm -rf rage-js-docs/core-docs
+          mv docs core-docs
+          cp -R core-docs rage-js-docs/
+
+      - name: Commit and push changes to rage-js-docs
+        run: |
+          cd rage-js-docs
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "Github Actions"
+          git checkout -b docs
+          git add core-docs
+          git commit -m "Update docs"
+          git push origin docs --force
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}

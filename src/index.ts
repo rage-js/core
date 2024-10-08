@@ -167,3 +167,4 @@ class App {
 }
 
 export { App };
+export type * from "./main";

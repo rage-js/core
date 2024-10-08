@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "scripts": {
-    "build": "tsup src/index.ts src/methods/PushAfterInterval.ts src/methods/NoInterval.ts --format cjs,esm --dts"
+    "build": "npx tsup src/index.ts src/methods/PushAfterInterval.ts src/methods/NoInterval.ts --format cjs,esm --dts",
+    "docs": "npx typedoc"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,8 @@
     "@types/node": "^20.14.1",
     "ts-node": "^10.9.2",
     "tsup": "^8.0.2",
+    "typedoc": "^0.26.8",
+    "typedoc-github-theme": "^0.1.2",
     "typescript": "^5.4.5"
   },
   "dependencies": {
