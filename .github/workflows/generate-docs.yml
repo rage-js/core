@@ -33,17 +33,18 @@ jobs:
           mv docs core-docs
           cp -R core-docs rage-js-docs/
 
+      - name: Log last docs update
+        run: |
+          touch rage-js-docs/last-update.txt
+          echo "Last update: $(date "+%Y-%m-%d %H:%M:%S")" >> rage-js-docs/last-update.txt
+
       - name: Commit and push changes to rage-js-docs
         run: |
           cd rage-js-docs
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "Github Actions"
-          if git status --porcelain; then
-            git add .
-            git commit -m "Update docs"
-            git push origin docs --force
-          else
-            echo "No changes to commit"
-          fi
+          git add .
+          git commit -m "Update docs"
+          git push origin docs --force
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
