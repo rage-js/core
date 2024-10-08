@@ -40,11 +40,11 @@ jobs:
           git config --local user.name "Github Actions"
           git status
           if git status --porcelain; then
-            echo "No changes to commit"
-          else
             git add .
             git commit -m "Update docs"
             git push origin docs --force
+          else
+            echo "No changes to commit"
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
