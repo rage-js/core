@@ -29,14 +29,14 @@ jobs:
 
       - name: Copy docs to rage-js-docs
         run: |
-          rm -rf rage-js-docs/core-docs
-          mv docs core-docs
-          cp -R core-docs rage-js-docs/
+          rm -rf rage-js-docs/website/core
+          mv docs core
+          cp -R core rage-js-docs/website
 
       - name: Log last docs update
         run: |
           touch rage-js-docs/last-update.txt
-          echo "Last update: $(date "+%Y-%m-%d %H:%M:%S")" >> rage-js-docs/last-update.txt
+          echo "Last update on docs: $(date "+%Y-%m-%d %H:%M:%S")" >> rage-js-docs/last-update.txt
 
       - name: Commit and push changes to rage-js-docs
         run: |
